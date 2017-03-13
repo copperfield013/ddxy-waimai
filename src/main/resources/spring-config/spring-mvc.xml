@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		
+		
+		
+	<import resource="spring-core.xml"/>
+	<import resource="spring-dao.xml"/>
+	
+	
+	
+	<!-- 请求映射处理，位置放在前面表示这些配置的优先级高于spring的默认处理器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="synchronizeOnSession" value="true" />
+    	<!-- 参数解析器 -->
+    	<property name="customArgumentResolvers">
+      		<list>
+        		<!-- PageInfo参数的解析器 -->
+        		<bean class="cn.sowell.copframe.dto.page.PageInfoArgumentResolver" />
+      		</list>
+    	</property>
+    	<!-- Controller返回值的转换器 -->
+    	<property name="messageConverters">
+        	<list>
+        		<!-- <bean class="cn.sowell.copframe.messageConverter.JsonResponseConverter">
+	        		<property name="supportedMediaTypes">    
+						<list>    
+							<value>application/json;charset=UTF-8</value>
+						</list>
+					</property>    
+        		</bean> -->
+        		<!-- 用于将返回的Json字符串转化编码 -->
+				<bean class="cn.sowell.copframe.messageConverter.JsonStringConverter">
+					<property name="supportedMediaTypes">    
+						<list>    
+							<value>application/json;charset=UTF-8</value>
+						</list>
+					</property>    
+				</bean>
+				<!-- 用于将返回的纯字符串转换编码 -->
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<constructor-arg value="UTF-8" /> 
+					<property name="supportedMediaTypes">    
+						<list>    
+							<value>text/plain;charset=UTF-8</value>
+						</list>    
+					</property>    
+				</bean>
+				<!-- 用于将普通对象转换为Json字符串并返回 -->
+				<!-- <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+					<property name="supportedMediaTypes">
+						<list>    
+				      		<value>application/json;charset=UTF-8</value>
+				      </list>    
+					</property>
+					<property name="objectMapper">
+						<bean class="cn.sowell.copframe.messageConverter.OfObjectMapper" >
+							<constructor-arg ref="dateFormat" />要求传入时间格式化的工具对象，这个在spring-dao中声明
+						</bean>
+					</property>
+				</bean>    --> 
+   				<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/> 
+        	</list>     
+		</property>
+	</bean>
+
+
+	<!-- 开启注解功能 -->
+	<mvc:annotation-driven />
+	
+	
+	<!-- 装载全局Controller的异常处理，这个类将所有异常显示到控制台，并且将异常信息返回到客户端 -->
+    <bean class="cn.sowell.copframe.ControllerExceptionHandler" />
+
+	
+	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp" />
+	</bean>
+	
+	
+	<!-- 图片获取 maxUploadSize：设置最大限制 字节为单位-->  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	    <property name="maxUploadSize" value="1024000"></property>  
+	</bean>  
+	
+	<mvc:interceptors>
+		<!-- 用于在请求中设置一些常用的变量 -->
+		<bean class="cn.sowell.copframe.common.interceptor.CommonRequestAttributeSetInterceptor" />
+	</mvc:interceptors>
+	
+	<mvc:resources mapping="/media/**" location="/resources/media/" />
+	<mvc:resources mapping="/picture/**" location="/resources/picture/" />
+	
+	
+	<import resource="spring-ddxy-waimai.xml"/>
+	<import resource="spring-security.xml"/>
+	
+</beans>
