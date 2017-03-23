@@ -1,0 +1,106 @@
+@CHARSET "UTF-8";
+@page{
+	width: 60mm;
+	height: 40mm;
+}
+* {
+    box-sizing: border-box;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    display: block;
+}
+.print-wrapper{
+	position: relative;
+	page-break-after: always;
+	width: 88mm;
+	height: 54.5mm;
+}
+.print-content {
+    font-size: 14px;
+    width: 90%;
+    position: absolute;
+    top: 15px;
+    bottom: 20px;
+    left: 25px;
+    right: 30px;
+}
+
+
+.print-content div {
+    float: left;
+    width: 100%;
+}
+
+.print-title-area {
+    text-align: center;
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+.print-desc-area {
+    font-size: 3px;
+}
+
+.print-desc {
+    width: auto !important;
+    margin-right: 1em;
+}
+
+.print-desc-title {
+    font-weight: bold;
+}
+
+div.print-desc.float-right {
+	float: right;
+}
+
+.print-part-area {
+    margin-top: 3px;
+    border-top: 1px dashed #000;
+    padding-top: 0;
+}
+.print-part-row span{
+	margin-right: 0.5em;
+}
+
+.print-addition-row{
+	height: 4em;
+	overflow: hidden;
+}
+.print-foot-area {
+    position: absolute;
+    bottom: 0;
+    font-size: 0.8em;
+}
+.print-amount-area {
+	border-bottom: 2px dotted #000;
+    text-align: right;
+    padding-bottom: 2px;
+}
+.print-greet {
+    text-align: center;
+    float: right;
+}
+.print-contact{
+}
+.print-receiver-row>div {
+    width: 50%;
+}
+.print-content-title{
+	font-weight: bold;
+}
+span#addition-area>label{
+}
+span#addition-area>label:not(:LAST-CHILD):AFTER{
+	content: "、";
+}
+
+.print-addr-area{
+	height: 2.8em;	
+}
