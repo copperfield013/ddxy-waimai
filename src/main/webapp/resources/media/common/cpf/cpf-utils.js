@@ -225,7 +225,7 @@ define(function(require, exports){
 		postJson			: function(url, obj, done){
 			$.ajax({
 				//提交的地址
-				url		: 'admin/waimai/submitOrder',
+				url		: url,
 				method	: 'POST',
 				headers	: {
 					'content-type'	: 'application/json;charset=utf-8'
@@ -242,6 +242,26 @@ define(function(require, exports){
 			}).fail(function(jqXHR, textStatus, errorThrown){
 				done.apply(this, [null, 'fail', arguments]);
 			});
+		},
+		/**
+		 * 获得当天时间的零点Date对象
+		 * @param date {Date} 传入要获取零点的那天的某个时间对象，不传入时，取当天
+		 * @return {Date} 零点时的时间对象
+		 */
+		getDate			: function(date, incDay){
+			if(!(date instanceof Date)){
+				date = new Date();
+			}else{
+				date = new Date(date);
+			}
+			date.setHours(0);
+			date.setMinutes(0);
+			date.setSeconds(0);
+			date.setMilliseconds(0);
+			if(typeof incDay === 'number' && incDay > 0){
+				date = new Date(Date.parse(date) + incDay * 86400000);
+			}
+			return date;
 		}
 		
 	});

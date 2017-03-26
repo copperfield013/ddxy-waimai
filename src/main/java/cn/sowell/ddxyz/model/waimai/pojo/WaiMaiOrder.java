@@ -37,6 +37,12 @@ public class WaiMaiOrder {
 	@Column(name="c_takeaway_key")
 	private String takeawayKey;
 	
+	@Column(name="c_total_income")
+	private Integer totalIncome;
+	
+	@Column(name="c_cup_count")
+	private Integer cupCount;
+	
 	@Column(name="create_time")
 	private Date createTime;
 	
@@ -96,5 +102,17 @@ public class WaiMaiOrder {
 	}
 	public void setItems(List<WaiMaiOrderItem> items) {
 		this.items = items;
+	}
+	public Integer getTotalIncome() {
+		return totalIncome;
+	}
+	public void setTotalIncome(Integer totalIncome) {
+		this.totalIncome = totalIncome;
+	}
+	public Integer getCupCount() {
+		return cupCount;
+	}
+	public void setCupCount(Integer cupCount) {
+		this.cupCount = cupCount;
 	}
 }

@@ -56,7 +56,8 @@ public class DeferedParamQuery{
 	@SuppressWarnings("rawtypes")
 	private ResultSetter resultSetter;
 	//语句片段map
-	private LinkedHashMap<String, String> snippettMap = new LinkedHashMap<String, String>();
+	private LinkedHashMap<String, DeferedParamSnippet> snippettMap = new LinkedHashMap<String, DeferedParamSnippet>();
+	
 	
 	/**
 	 * 根据一个语句构造延迟查询对象，该语句可以是任何字符串，甚至是null。因为查询语句在生成查询对象之前都可以被替换
@@ -165,11 +166,15 @@ public class DeferedParamQuery{
 			}
 		}
 		//替换语句中的参数
-		for (Entry<String, String> snippetEntry : this.snippettMap.entrySet()) {
+		for (Entry<String, DeferedParamSnippet> snippetEntry : this.snippettMap.entrySet()) {
 			String regex = "@" + snippetEntry.getKey();
-			String replacement = snippetEntry.getValue();
-			if(replacement == null){
-				replacement = "";
+			DeferedParamSnippet snippet = snippetEntry.getValue();
+			String replacement = "";
+			if(snippet != null){
+				replacement = snippet.getSnippet();
+				if(!snippet.isEmpty() && snippet.getPrependWhenNotEmpty() != null){
+					replacement = snippet.getPrependWhenNotEmpty() + replacement;
+				}
 			}
 			if(sql.contains(regex)){
 				sql = sql.replaceAll(regex, replacement);
@@ -299,15 +304,49 @@ public class DeferedParamQuery{
 	}
 	
 	/**
-	 * 设置语句中的片段
+	 * 设置语句中的片段（可以进行覆盖）
 	 * @param snippetName
 	 * @param snippet
 	 * @return
 	 */
 	public DeferedParamQuery setSnippet(String snippetName, String snippet){
 		Assert.hasText(snippetName);
-		this.snippettMap.put(snippetName, snippet);
+		DeferedParamSnippet s = new DeferedParamSnippet(snippetName, snippet);
+		this.snippettMap.put(snippetName, s);
 		return this;
 	}
+	/**
+	 * 移除语句中的片段（只是移除之前set进来，或者create的片段语句，并不改变原始语句当中的片段名的存在）
+	 * @param snippetName 片段的名称
+	 * @return
+	 */
+	public DeferedParamQuery removeSnippet(String snippetName){
+		this.snippettMap.remove(snippetName);
+		return this;
+	}
+	
+	/**
+	 * 创建一个关于语句中的片段名的片段对象，创建之后自动关联
+	 * @param snippetName
+	 * @return
+	 */
+	public DeferedParamSnippet createSnippet(String snippetName, String prepend){
+		DeferedParamSnippet snippet = new DeferedParamSnippet(snippetName);
+		if(prepend != null){
+			snippet.setPrependWhenNotEmpty(prepend);
+		}
+		this.snippettMap.put(snippetName, snippet);
+		return snippet;
+	}
+	public ConditionSnippet createConditionSnippet(String snippetName) {
+		ConditionSnippet snippet = new ConditionSnippet(snippetName);
+		snippet.setPrependWhenNotEmpty("where");
+		this.snippettMap.put(snippetName, snippet);
+		return snippet;
+	}
+	
+	
+	
+	
 	
 }

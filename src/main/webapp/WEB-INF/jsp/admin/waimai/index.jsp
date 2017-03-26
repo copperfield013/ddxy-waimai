@@ -4,6 +4,10 @@
 <html>
 	<head>
 		<base href="${basePath }" />
+		<title>外卖点单系统</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+		<link rel="shortcut icon" href="${basePath }media/admin/main/image/icon.jpg" >
 		<link rel="stylesheet" type="text/css" href="${basePath }media/admin/waimai/css/waimai-main.css"   />
 		<jsp:include page="/WEB-INF/jsp/admin/common/admin-include.jsp"></jsp:include>
 	</head>
@@ -168,7 +172,6 @@
 					</div>
 				</div>
 				<div class="ydd-wm-dialog-button-area">
-					<input type="button" id="receiver-save-order" value="保存订单" />
 					<input type="button" id="return-with-save" value="保存并返回" />
 					<input type="button" id="return-with-cancel" value="取消" />
 				</div>

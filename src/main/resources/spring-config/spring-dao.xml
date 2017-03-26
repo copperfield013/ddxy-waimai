@@ -71,7 +71,7 @@
     <!-- 通用事务的AOP配置， -->
 	<aop:config>
 		<aop:pointcut id="interceptorPointCuts"
-			expression="execution(* cn.sowell.ddxyz.model.*.dao.*.*(..))" />
+			expression="execution(* cn.sowell.ddxyz.model.*.service.*.*(..))" />
 		<aop:advisor advice-ref="commonAdvice" pointcut-ref="interceptorPointCuts" />
 	</aop:config>
     

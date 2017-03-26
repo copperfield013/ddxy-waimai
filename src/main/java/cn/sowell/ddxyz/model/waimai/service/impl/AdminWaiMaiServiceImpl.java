@@ -129,7 +129,7 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 				WaiMaiOrder wOrder = new WaiMaiOrder();
 				result.setOrder(wOrder);
 				//生成订单号并且放到对象中
-				wOrder.setCode(generateCode());
+				wOrder.setCode(generateOrderCode());
 				wOrder.setCreateTime(new Date());
 				wOrder.setReceiverId(receiver.getId());
 				wOrder.setReceiverName(receiver.getName());
@@ -137,23 +137,34 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 				wOrder.setReceiverAddress(receiver.getAddress());
 				//外卖平台
 				TakeawayPlatform takeaway = order.getTakeaway();
+				//订单总价
+				wOrder.setTotalIncome(order.getTotalIncome());
 				if(takeaway != null){
 					wOrder.setTakeawayKey(takeaway.getKey());
 				}
+				
+				int orderCupCount = 0;
+				for (OrderItem item : itemList) {
+					if(item.getDrinkId() != null && item.getCount() != null){
+						orderCupCount += item.getCount();
+					}
+				}
+				wOrder.setCupCount(orderCupCount);
 				//执行保存当前订单
 				Long orderId = waimaiDao.saveOrder(wOrder);
 				
 				//保存订单条目
 				List<WaiMaiOrderItem> items = new ArrayList<WaiMaiOrderItem>();
-				
 				for (OrderItem item : itemList) {
 					if(item.getDrinkId() != null){
 						WaiMaiOrderItem wItem = new WaiMaiOrderItem();
 						wItem.setDrinkId(item.getDrinkId());
 						wItem.setCount(item.getCount());
+						orderCupCount += wItem.getCount();
 						wItem.setHeatKey(item.getHeatKey());
 						wItem.setSweetnessKey(item.getSweetnessKey());
 						wItem.setOrderId(orderId);
+						wItem.setIncome(item.getIncome());
 						//将所有加料的主键连成字符串
 						String additionsChain = CollectionUtils.toChain(item.getAdditionIds());
 						wItem.setAdditionIds(additionsChain);
@@ -175,9 +186,13 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 		return result;
 	}
 	
-	static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-	static DecimalFormat noFormat = new DecimalFormat("00000");
-	private String generateCode() {
+	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	DecimalFormat noFormat = new DecimalFormat("00000");
+	/**
+	 * 生成订单号的方法
+	 * @return
+	 */
+	private String generateOrderCode() {
 		Integer orderNo = getOrderNoAndInc();
 		if(orderNo != null){
 			String code = dateFormat.format(new Date());

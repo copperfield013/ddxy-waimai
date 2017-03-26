@@ -29,6 +29,9 @@ public class WaiMaiOrderItem {
 	@Column(name="c_sweetness_key")
 	private Integer sweetnessKey;
 	
+	@Column(name="c_income")
+	private Integer income; 
+	
 	@Column(name="order_id")
 	private Long orderId;
 	
@@ -73,5 +76,11 @@ public class WaiMaiOrderItem {
 	}
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
+	}
+	public Integer getIncome() {
+		return income;
+	}
+	public void setIncome(Integer income) {
+		this.income = income;
 	}
 }

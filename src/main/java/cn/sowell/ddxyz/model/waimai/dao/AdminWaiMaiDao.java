@@ -67,6 +67,12 @@ public interface AdminWaiMaiDao {
 	 * @return
 	 */
 	Integer getOrderNoAndInc(Date date);
+	/**
+	 * 更新
+	 * @param orderId
+	 * @param orderCupCount
+	 */
+	void updateOrderCupCount(Long orderId, int orderCupCount);
 	
 	
 	

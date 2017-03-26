@@ -38,6 +38,13 @@ public interface AdminWaiMaiConstants {
 			put(6, "无糖");
 		}
 	};
+
+	final String ROOT_ORDER_MANAGE = "/admin/order_manage";
+
+	/**
+	 * 取消订单状态
+	 */
+	final String ORDER_STATUS_CANCELED = "canceled";
 	
 	
 	

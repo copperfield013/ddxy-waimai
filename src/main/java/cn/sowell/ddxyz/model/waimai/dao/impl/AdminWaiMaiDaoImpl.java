@@ -123,12 +123,20 @@ public class AdminWaiMaiDaoImpl implements AdminWaiMaiDao {
 			updateQuery.executeUpdate();
 		}else{
 			WaiMaiOrderNo wOrderNo = new WaiMaiOrderNo();
-			wOrderNo.setOrderNo(1);
+			//因为创建之后，1就被占用了，因此从2开始
+			wOrderNo.setOrderNo(2);
 			wOrderNo.setTheDay(new Date());
 			wOrderNo.setUpdateTime(thisDate);
 			session.save(wOrderNo);
 			return 1;
 		}
 		return orderNo;
+	}
+	
+	@Override
+	public void updateOrderCupCount(Long orderId, int orderCupCount) {
+		String sql = "update t_waimai_order set c_cup_count = :cupCount";
+		SQLQuery query = sFactory.getCurrentSession().createSQLQuery(sql);
+		query.setInteger("cupCount", orderCupCount).executeUpdate();
 	}
 }

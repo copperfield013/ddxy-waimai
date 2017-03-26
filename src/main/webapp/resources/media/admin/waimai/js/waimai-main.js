@@ -496,6 +496,7 @@ define(function(require, exports, module){
 			//取消所有饮料、加料、温度等选择
 			$('.ydd-wm-main-center .ydd-wm-main-goods-wrapper span.selected').removeClass('selected');
 			$('.ydd-wm-main-addition-wrapper span.selected').removeClass('selected')
+			$('.ydd-wm-main-addition-set>span').removeClass('selected');
 			
 			currentOrderItem = orderItem;
 			$('.order-item.selected', $orderItemContainer).removeClass('selected');
@@ -1104,6 +1105,8 @@ define(function(require, exports, module){
 			var data = {};
 			//订单号
 			data.code = this.getCode();
+			//订单总价格
+			data.totalIncome = this.accountPrice();
 			//收货信息
 			if(receiver instanceof Receiver){
 				data.receiver = {
@@ -1129,6 +1132,7 @@ define(function(require, exports, module){
 					itemData.drinkId = item.getDrink().getId();
 					itemData.count = item.getCount();
 					itemData.additions = [];
+					itemData.income = item.accountPrice();
 					var additions = item.getAdditions();
 					for(var j in additions){
 						var addition = additions[j];

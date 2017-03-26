@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 
 public class OrderRequest {
 	private String code;
+	private Integer totalIncome;
 	private WaiMaiReceiver receiver;
 	private List<OrderItem> orderItemList = new ArrayList<OrderItem>();
 	private TakeawayPlatform takeaway;
@@ -51,6 +52,7 @@ public class OrderRequest {
 		OrderRequest order = new OrderRequest();
 		//订单号
 		order.setCode(json.getString("code"));
+		order.setTotalIncome(json.getInteger("totalIncome"));
 		//收货信息
 		WaiMaiReceiver receiver = new WaiMaiReceiver();
 		JSONObject rJson = json.getJSONObject("receiver");
@@ -76,6 +78,7 @@ public class OrderRequest {
 				});
 				item.setHeatKey(FormatUtils.toInteger(iData.get("heatKey")));
 				item.setSweetnessKey(FormatUtils.toInteger(iData.get("sweetnessKey")));
+				item.setIncome(iData.getInteger("income"));
 				order.addOrderItem(item);
 			});
 		}
@@ -88,5 +91,11 @@ public class OrderRequest {
 			order.setTakeaway(takeaway);
 		}
 		return order;
+	}
+	public Integer getTotalIncome() {
+		return totalIncome;
+	}
+	public void setTotalIncome(Integer totalIncome) {
+		this.totalIncome = totalIncome;
 	}
 }

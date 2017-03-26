@@ -1,5 +1,6 @@
 ﻿package cn.sowell.copframe.dao.deferedQuery;
 
+import java.util.Date;
 import java.util.Map;
 
 import cn.sowell.copframe.dto.format.FormatUtils;
@@ -37,6 +38,10 @@ public class SimpleMapWrapper {
 	
 	public Double toDouble(String column){
 		return FormatUtils.toDouble(map.get(column));
+	}
+	
+	public Date getDate(String column){
+		return (Date) get(column);
 	}
 	
 }

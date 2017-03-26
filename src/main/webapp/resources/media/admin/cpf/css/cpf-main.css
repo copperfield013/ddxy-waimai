@@ -1,0 +1,181 @@
+@CHARSET "UTF-8";
+html,body{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+.main-container {
+    position: absolute;
+    padding: 0;
+    top: 45px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+div.page-container, div.page-container, div.page-container>.page-content{
+	height: 100%;
+}
+div.page-container>.page-content{
+	position: relative;
+}
+ul.nav-tabs{
+	height: 34px;
+}
+div.tab-content{
+	position: absolute;
+    top: 34px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    padding: 0 0 0 10px;
+}
+div.tab-content>.tab-pane{
+	width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#loading-container{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+    vertical-align: middle;
+}
+.modal-backdrop {
+    background-color: #333;
+}
+/* 分页模块 */
+.cpf-paginator{
+	text-align: right;
+}
+.cpf-paginator-jump>*{
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.cpf-paginator-jump-text{
+    margin-left: 1em;
+    border-width: 1px;
+    border-color: #ccc;
+    width: 3em;
+}
+.cpf-paginator-jump-button{
+	top: -1px;
+    width: 3em;
+    background: #2DC3E8;
+    color: #fff;
+    border-color: #2DC3E8;
+    border-radius: 0;
+    text-align: center;
+}
+.cpf-paginator-pagesize>select{
+	float: left;
+    margin-right: 1em;
+    padding: 5px 10px;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+/* 标签页模块 */
+li.main-tab-title{
+	position: relative;
+}
+li.main-tab-title>a{
+	padding-right: 25px;
+}
+.main-tab-title>span{
+    position: absolute;
+    top: 9px;
+    right: 3px;
+    color: #000;
+    z-index: 100;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    border-radius: 15px;
+    line-height: 15px;
+}
+.main-tab-title>span:HOVER{
+	background-color: #e92525;
+	color: #fff;
+}
+.main-tab-content{
+	overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 弹出框样式 */
+.modal-footer{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+/* 详情样式 */
+.detail *{
+	font-size: 15px;
+}
+.detail {
+    display: table;
+    width: 100%;
+}
+.detail>dl{
+	display: table-row;
+    width: 100%;
+}
+.detail>dl>dt, .detail>dl>dd{
+	border-bottom: dashed 1px #ddd;
+    height: 2em;
+    line-height: 2em;
+    vertical-align: middle;
+}
+.detail>dl>dt{
+	display: table-cell;
+    width: 8em;
+    text-align: center;
+}
+.detail>dl>dd{
+	display: table-cell;
+	padding: 0 0.5em;
+}
+
+
+.tree .tree-actions >i.fa {
+    margin-right: 6px;
+    padding: 1px 0;
+}
+
+
+.toast-center{
+	top	: 7%;
+	left: 35%;
+}
+
+/* 列表页模块 */
+th,td{
+	text-align: center;
+}
+label.form-control-title {
+	display: inline-block;
+    height: 2.5em;
+    line-height: 2.5em;
+    margin-bottom: 0;
+    margin-right: 0.5em;
+    margin-left: 1em;
+}
+
+.daterangepicker .ranges .range_inputs>div:nth-child(2) {
+    padding-left: 0;
+}
+.daterangepicker .ranges .input-mini {
+    width: 12em;
+}
+.daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.ampmselect {
+    width: 5em;
+    margin-bottom: 0;
+}

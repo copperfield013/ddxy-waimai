@@ -9,6 +9,7 @@ public class OrderItem {
 	private List<Long> additionIds = new ArrayList<Long>();
 	private Integer heatKey;
 	private Integer sweetnessKey;
+	private Integer income;
 	
 	
 	public Integer getCount() {
@@ -43,6 +44,12 @@ public class OrderItem {
 	}
 	public void setSweetnessKey(Integer sweetnessKey) {
 		this.sweetnessKey = sweetnessKey;
+	}
+	public Integer getIncome() {
+		return income;
+	}
+	public void setIncome(Integer income) {
+		this.income = income;
 	}
 	
 }
