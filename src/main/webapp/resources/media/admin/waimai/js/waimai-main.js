@@ -1019,8 +1019,12 @@ define(function(require, exports, module){
 			}
 			//超过10杯的优惠
 			var cupCount = this.makeStatistics().cupCount;
+			//获得要优惠的杯数
 			var promotionCount = Math.floor(cupCount / 11);
-			result = Math.floor(result * ((cupCount - promotionCount) / cupCount) / 100) * 100 ;
+			//获得优惠价格
+			var promotionPrice = Math.floor(result * (promotionCount / cupCount) / 100) * 100;
+			//减去优惠价格
+			result -= promotionPrice;
 			return result;
 		};
 		/**
