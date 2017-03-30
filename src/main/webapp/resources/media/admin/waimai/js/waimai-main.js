@@ -3,7 +3,8 @@
  */
 define(function(require, exports, module){
 	var utils = require('utils'),
-		Print = require('print')
+		Print = require('print'),
+		Ajax = require('ajax')
 	function WaiMai(){
 		var 
 			DEFAULT_ORDER_CODE = 'wait-for-generate',
@@ -367,7 +368,7 @@ define(function(require, exports, module){
 					return false;
 				}
 				//发送订单信息
-				utils.postJson('admin/waimai/submitOrder', submitData, function(json, status){
+				Ajax.postJson('admin/waimai/submitOrder', submitData, function(json, status){
 					console.log(json);
 					if(json != null){
 						if(json.orderCode){
@@ -445,7 +446,7 @@ define(function(require, exports, module){
 			
 			//设置每三分钟访问一次后台，防止session过期
 			var pollingTimer = setInterval(function(){
-				utils.postJson('admin/waimai/polling',{
+				Ajax.postJson('admin/waimai/polling',{
 					
 				}, function(json){
 					
@@ -1016,6 +1017,10 @@ define(function(require, exports, module){
 				var item = itemList[i];
 				result += item.accountPrice();
 			}
+			//超过10杯的优惠
+			var cupCount = this.makeStatistics().cupCount;
+			var promotionCount = Math.floor(cupCount / 11);
+			result = Math.floor(result * ((cupCount - promotionCount) / cupCount) / 100) * 100 ;
 			return result;
 		};
 		/**
