@@ -8,6 +8,13 @@ define(function(require, exports, module){
 		utils = require('utils')
 		;
 	
+	$CPF.addDefaultParam({
+		//是否在ajax请求时检测返回session状态
+		ajaxSessionValid	: true,
+		//当session无效的时候，ajax请求返回后需要跳转的地址
+		sessionInvalidURL	: ''
+	});
+	
 	/**
 	 * 返回json数据时，将其转换成JsonResponse类对象
 	 */
@@ -131,7 +138,6 @@ define(function(require, exports, module){
 			fData = formData;
 		}
 		
-		
 		$.ajax({
 		    url: 		url,
 		    type: 		param.method,
@@ -140,7 +146,7 @@ define(function(require, exports, module){
 		    processData: false,
 		    contentType: false,
 		    success		: function(data, status, jqXHR){
-		    	console.log(jqXHR);
+		    	commonHandleSucAjax(data, status, jqXHR);
 		    	var resContentType = utils.trim(jqXHR.getResponseHeader("Content-Type"));
 		    	if(/^.+\/json;.+$/.test(resContentType)){
 		    		//返回的数据是Json格式的数据
@@ -174,5 +180,44 @@ define(function(require, exports, module){
 		});
 	}
 	
+	/**
+	 * 以post的方式将obj转换成json字符串，并发送到后台
+	 * 后台的控制器需要支持application/json;charset=utf-8的头信息
+	 * @param url {String} 请求地址
+	 * @param obj {PlainObject} 请求的数据对象，会被转换成json，因此必须是纯粹对象
+	 * @param done {Function} 请求成功后的回调函数，有一个参数，是已经对象化的json对象
+	 */
+	function postJson(url, obj, done){
+		$.ajax({
+			//提交的地址
+			url		: url,
+			method	: 'POST',
+			headers	: {
+				'content-type'	: 'application/json;charset=utf-8'
+			},
+			data	: JSON.stringify(obj)
+		}).done(function(data, textStatus, jqXHR){
+			commonHandleSucAjax(data, textStatus, jqXHR);
+			var json = data;
+			if(typeof json === 'string'){
+				try{
+					json = $.parseJSON(json);
+				}catch(e){}
+			}
+			done.apply(this, [json, 'done', arguments]);
+		}).fail(function(jqXHR, textStatus, errorThrown){
+			done.apply(this, [null, 'fail', arguments]);
+		});
+	}
+	
+	function commonHandleSucAjax(data, textStatus, jqXHR){
+		if($CPF.getParam('ajaxSessionValid')){
+			var sessionStatus = jqXHR.getResponseHeader('cpf-session-status');
+			if(sessionStatus === 'invalid'){
+				location.href = $CPF.getParam('sessionInvalidURL');
+			}
+		}
+	}
 	exports.ajax = ajax;
+	exports.postJson = postJson;
 });

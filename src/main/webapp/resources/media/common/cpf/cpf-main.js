@@ -29,8 +29,9 @@ define(function(require){
 	require('tab');
 	require('css');
 	$CPF.init({
-		loadingImg	: 'media/admin/cpf/image/loading.gif',
-		maxPageCount: 8
+		loadingImg			: 'media/admin/cpf/image/loading.gif',
+		maxPageCount		: 8,
+		sessionInvalidURL	: 'admin/login'
 	});
 	//初始化当前页面
     $CPF.initPage(document);

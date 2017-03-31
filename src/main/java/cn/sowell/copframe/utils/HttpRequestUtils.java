@@ -192,6 +192,11 @@ public class HttpRequestUtils {
 		return null;
 	}
 
+	public static boolean isAjaxRequest(HttpServletRequest reqeust) {
+		String ajaxHeader = reqeust.getHeader("X-Requested-With");  
+        return "XMLHttpRequest".equalsIgnoreCase(ajaxHeader);
+	}
+
 	
 	
 	

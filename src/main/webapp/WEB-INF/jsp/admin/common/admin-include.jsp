@@ -23,7 +23,10 @@
 		    	'$CPF'		: 'COMMON/cpf/cpf-core.js',
 				'utils'		: 'COMMON/cpf/cpf-utils.js',
 				'console'	: 'COMMON/cpf/cpf-console.js',
-				'print'		: 'COMMON/cpf/cpf-print.js'
+				'print'		: 'COMMON/cpf/cpf-print.js',
+				'ajax'		: 'COMMON/cpf/cpf-ajax.js',
+				'page'		: 'COMMON/cpf/cpf-page.js',
+				'dialog'	: 'COMMON/cpf/cpf-dialog.js'
 				//..其他模块
 		  	}
 		});

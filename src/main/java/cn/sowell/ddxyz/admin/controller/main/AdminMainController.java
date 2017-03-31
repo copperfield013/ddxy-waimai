@@ -28,4 +28,5 @@ public class AdminMainController {
 	public String index(){
 		return "/admin/common/index.jsp";
 	}
+	
 }

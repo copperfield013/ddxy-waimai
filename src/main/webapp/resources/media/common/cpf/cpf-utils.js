@@ -216,34 +216,6 @@ define(function(require, exports){
 			}
 		},
 		/**
-		 * 以post的方式将obj转换成json字符串，并发送到后台
-		 * 后台的控制器需要支持application/json;charset=utf-8的头信息
-		 * @param url {String} 请求地址
-		 * @param obj {PlainObject} 请求的数据对象，会被转换成json，因此必须是纯粹对象
-		 * @param done {Function} 请求成功后的回调函数，有一个参数，是已经对象化的json对象
-		 */
-		postJson			: function(url, obj, done){
-			$.ajax({
-				//提交的地址
-				url		: url,
-				method	: 'POST',
-				headers	: {
-					'content-type'	: 'application/json;charset=utf-8'
-				},
-				data	: JSON.stringify(obj)
-			}).done(function(data, textStatus, jqXHR){
-				var json = data;
-				if(typeof json === 'string'){
-					try{
-						json = $.parseJSON(json);
-					}catch(e){}
-				}
-				done.apply(this, [json, 'done', arguments]);
-			}).fail(function(jqXHR, textStatus, errorThrown){
-				done.apply(this, [null, 'fail', arguments]);
-			});
-		},
-		/**
 		 * 获得当天时间的零点Date对象
 		 * @param date {Date} 传入要获取零点的那天的某个时间对象，不传入时，取当天
 		 * @return {Date} 零点时的时间对象
