@@ -1573,9 +1573,6 @@ define(function(require, exports, module){
 		 * @return {Integer} 需加价的价格，单位为分
 		 */
 		this.getAdditionPrice = function(orderItem){
-			if(orderItem instanceof OrderItem && typeof param.strategy === 'function'){
-				return parseInt(param.strategy.apply(this, [orderItem]));
-			}
 			return 0;
 		};
 	}
@@ -1627,9 +1624,7 @@ define(function(require, exports, module){
 			 * @return {Integer} 需加价的价格，单位为分
 			 */
 			this.getAdditionPrice = function(orderItem){
-				if(orderItem instanceof OrderItem && param.strategy !== $.noop && typeof param.strategy === 'function'){
-					return param.strategy.apply(this, [orderItem]);
-				}
+				return 0;
 			};
 	}
 	

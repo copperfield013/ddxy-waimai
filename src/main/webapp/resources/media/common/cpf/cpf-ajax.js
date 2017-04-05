@@ -192,6 +192,7 @@ define(function(require, exports, module){
 			//提交的地址
 			url		: url,
 			method	: 'POST',
+			dataType: 'json',
 			headers	: {
 				'content-type'	: 'application/json;charset=utf-8'
 			},
