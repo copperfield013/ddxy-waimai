@@ -98,7 +98,7 @@
 			}
 			
 			$('.cancel-order').click(function(){
-				setOrderStatus.apply(this, ['cancel', '确认取消订单']);
+				setOrderStatus.apply(this, ['canceled', '确认取消订单']);
 				return false;
 			});
 			$('.reset-order').click(function(){
