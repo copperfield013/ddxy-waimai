@@ -356,7 +356,7 @@ define(function(require, exports, module){
 				title = '操作提示',
 				confirmModel = 
 					'<div>' +
-						'<div class="confirm-msg">' + msg + '</div>' + 
+						'<div class="dialog-confirm-msg">' + msg + '</div>' + 
 						'<div class="' + CLASS_FOOTER + '">' +
 							'<button class="confirm-btn-yes btn btn-default"> 是 </button>' +
 							'<button class="confirm-btn-no btn btn-primary"> 否 </button>' +
@@ -365,7 +365,7 @@ define(function(require, exports, module){
 					'</div>',
 				$confirm = $(confirmModel)
 					;
-			param.domHandler.apply(this, [$('div.confirm-msg:first', $confirm), $confirm]);
+			param.domHandler.apply(this, [$('div.dialog-confirm-msg:first', $confirm), $confirm]);
 			var dialog = Dialog.openDialog($confirm, title, confirmId, {
 				width	: param.width,
 				height	: param.height,
