@@ -34,7 +34,7 @@ li {
     position: relative;
 }
 .ydd-wm-left {
-    width: 9.5em;
+    width: 6.5em;
     height: 100%;
     position:absolute;
     padding:0 0.5em 0 1em;
@@ -61,8 +61,8 @@ li.ydd-wm-left-item:HOVER{
     height: 100%;
     position: relative;
     border-right: 1px solid #aaa;
-    margin-left: 11em;
-    margin-right:26.5em;
+    margin-left: 8em;
+    margin-right:16.5em;
 }
 .ydd-wm-main *{
 	font-size: 0.95em;
@@ -106,7 +106,7 @@ span.active.ydd-wm-main-title {
 
 .ydd-wm-main-center {
     width: 100%;
-	height:21em;
+	height:23em;
 }
 .ydd-wm-main-goods-wrapper {
     width: 100%;
@@ -303,7 +303,7 @@ span.active.ydd-wm-main-title {
 
 .ydd-wm-right{
 	position:absolute;
-	width: 26.5em;
+	width: 16.5em;
 	height: 100%;
 	max-height: 100%;
 	overflow: hidden;
@@ -351,7 +351,7 @@ div#order-list-title * {
     color: #000;
 }
 div#order-list-wrapper {
-    width: 104%;
+    width: 107%;
     position: absolute;
     top: 2em;
     bottom: 0;
@@ -383,8 +383,7 @@ div#order-list-wrapper {
 
 .ydd-wm-order-row.desc-row,.ydd-wm-order-row.addition-row {
     background-color: #307040;
-    width: 95%;
-    margin-left: 5%;
+    width: 100%;
     line-height: 1.5em;
     height: auto;
     cursor: pointer;
@@ -401,7 +400,7 @@ div#order-list-wrapper {
 	background-color: #80c090;
 }
 span.order-item-selected {
-    width: 75%;
+    width: 70%;
     display: block;
     float: left;
     border-right: 1px solid #fff;
@@ -414,7 +413,7 @@ span.order-item-selected {
 span.order-item-number {
     display: block;
     float: left;
-    width: 10%;
+    width: 15%;
     border-right: 1px solid #fff;
     text-align: center;
 }
@@ -432,7 +431,6 @@ span.order-item-desc {
 .order-item-desc>span {
     display: inline-block;
     padding: 0;
-    float: left;
     min-width: 2em;
     white-space: nowrap;
 }
