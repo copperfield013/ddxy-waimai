@@ -155,7 +155,7 @@ define(function(require, exports, module){
 		    			if(typeof json === 'string'){
 		    				json = $.parseJSON(json)
 		    			}
-		    			if(json && json['AJAX_PAGE_RESPONSE'] === ''){
+		    			if(json && json['AJAX_PAGE_RESPONSE'] === 'cpf'){
 		    				var jRes = new AjaxPageResponse(json);
 		    				var result = param.whenSuc(jRes, 'json');
 		    				if(result !== false){
