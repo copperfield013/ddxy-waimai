@@ -361,11 +361,11 @@ define(function(require, exports, module){
 							'<button class="confirm-btn-yes btn btn-default"> 是 </button>' +
 							'<button class="confirm-btn-no btn btn-primary"> 否 </button>' +
 						'</div>' + 
-						
+						    
 					'</div>',
 				$confirm = $(confirmModel)
 					;
-			param.domHandler.apply(this, [$confirm]);
+			param.domHandler.apply(this, [$('div.confirm-msg:first', $confirm), $confirm]);
 			var dialog = Dialog.openDialog($confirm, title, confirmId, {
 				width	: param.width,
 				height	: param.height,
