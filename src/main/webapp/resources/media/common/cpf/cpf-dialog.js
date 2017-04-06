@@ -344,7 +344,11 @@ define(function(require, exports, module){
 		/**
 		 * 弹出确认框
 		 */
-		confirm		: function(msg, callback){
+		confirm		: function(msg, callback, _param){
+			var defaultParam = {
+				domHandler	 : $.noop	
+			};
+			var param = $.extend({}, defaultParam, _param)
 			var confirmId = utils.uuid(5, 62),
 				title = '操作提示',
 				confirmModel = 
@@ -358,6 +362,7 @@ define(function(require, exports, module){
 					'</div>',
 				$confirm = $(confirmModel)
 					;
+			param.domHandler.apply(this, [$confirm]);
 			var dialog = Dialog.openDialog($confirm, title, confirmId, {
 				width	: '300px',
 				height	: '200px',
