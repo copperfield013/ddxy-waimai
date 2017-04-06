@@ -862,7 +862,7 @@ define(function(require, exports, module){
 				    		extraHead 	: headElements,
 				    		extraCss	: basePath + 'media/admin/waimai/css/print.css'
 				    	};
-				    
+				    appendStatPage($pageContainer, currentOrder);
 				    $pageContainer.clone().printArea(options);
 				    currentOrder.setPrinted();
 				}
@@ -890,6 +890,45 @@ define(function(require, exports, module){
 				}*/
 			}
 		}
+		function appendStatPage($container, order){
+			var stat = order.makeStatistics();
+			var $temp = $container.children('div:first').clone();
+			var $totalPriceRow = $('<div class="print-part-row-half">'),
+				$originalPriceRow = $('<div class="print-part-row-half">'),
+				$promotionRow = $('<div class="print-part-row-half">'),
+				$totalCountRow = $('<div class="print-part-row-half">')
+				;
+			
+			$originalPriceRow
+				.append($('<span class="print-content-title">').text('原价：'))
+				.append($('<span>').text((stat.originalPrice / 100 ) + '元'))
+				;
+			$promotionRow
+				.append($('<span class="print-content-title">').text('优惠价格：'))
+				.append($('<span>').text((stat.promotion / 100 ) + '元'))
+				;
+			$totalPriceRow
+				.append($('<span class="print-content-title">').text('总价：'))
+				.append($('<span>').text((stat.price / 100 )+ '元'))
+				;
+			$totalCountRow
+				.append($('<span class="print-content-title">').text('总杯数：'))
+				.append($('<span>').text(stat.cupCount))
+			;
+			
+			$('.print-title', $temp).text('统计单');
+			$('.print-part-area', $temp)
+				.empty()
+				.append($originalPriceRow)
+				.append($promotionRow)
+				.append($totalPriceRow)
+				.append($totalCountRow)
+				;
+			$('.print-milk-divide', $temp).remove();
+			$('.print-amount-area', $temp).remove();
+			$container.append($temp);
+		}
+		
 		/**
 		 * 调用layer插件提示信息
 		 */
@@ -1012,45 +1051,41 @@ define(function(require, exports, module){
 		 * @return {Integer} 订单总价，单位分
 		 */
 		this.accountPrice = function(){
-			var result = 0;
-			for(var i in itemList){
-				var item = itemList[i];
-				result += item.accountPrice();
-			}
-			//超过10杯的优惠
-			var cupCount = this.makeStatistics().cupCount;
-			//获得要优惠的杯数
-			var promotionCount = Math.floor(cupCount / 11);
-			//获得优惠价格
-			var promotionPrice = Math.floor(result * (promotionCount / cupCount) / 100) * 100;
-			//减去优惠价格
-			result -= promotionPrice;
-			return result;
+			return this.makeStatistics().price;
 		};
 		/**
 		 * 统计订单信息
 		 * @return {Object} 统计信息对象，包括以下信息
 		 * 			总杯数：cupCount
-		 * 			现金： cash
+		 * 			原总价：originalPrice
 		 * 			总价： price
-		 * 			找零： change
 		 * 			已优惠：promotion
 		 */
 		this.makeStatistics = function(){
-			var result = {
-					cupCount	: 0,
-					cash		: cash,
-					price		: this.accountPrice,
-					change		: 0,
-					promotion	: 0
-			};
+			//计算总杯数
+			var cupCount = 0;
 			for(var i in itemList){
-				result.cupCount += itemList[i].getCount();
+				cupCount += itemList[i].getCount();
 			}
-			if(result.cash > result.price){
-				result.change = result.cash - result.price;
+			//计算总价
+			var originalPrice = 0;
+			for(var i in itemList){
+				var item = itemList[i];
+				originalPrice += item.accountPrice();
 			}
-			return result;
+			//获得要优惠的杯数
+			var promotionCount = Math.floor(cupCount / 11);
+			//获得优惠价格
+			var promotion = Math.floor(originalPrice * (promotionCount / cupCount) / 100) * 100;
+			//减去优惠价格，获得总价
+			var price = originalPrice - promotion;
+			
+			return {
+				cupCount		: cupCount,
+				originalPrice	: originalPrice,
+				price			: price,
+				promotion		: promotion
+			}
 		};
 		/**
 		 * 设置收货人信息

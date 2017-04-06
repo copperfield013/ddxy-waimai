@@ -187,7 +187,7 @@
 					</div>
 					<div class="print-desc-area">
 						<div class="print-desc">
-							<span class="print-desc-title">订单编号:</span>
+							<span class="print-desc-title">编号:</span>
 							<span class="print-desc-content print-order-code">M150003T</span>
 							<span class="print-desc-content print-milk-divide">1/1</span>
 						</div>
