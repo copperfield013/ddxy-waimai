@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.sowell.copframe.dto.ajax.JsonResponse;
+import cn.sowell.copframe.dto.ajax.AjaxPageResponse;
 import cn.sowell.copframe.dto.ajax.NoticeType;
 import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.copframe.utils.DateUtils;
@@ -66,9 +66,9 @@ public class OrderManageController {
 			@RequestParam("status") String status){
 		boolean cancelResult = omService.setOrderStatus(orderId, status);
 		if(cancelResult){
-			return JSON.toJSONString(JsonResponse.REFRESH_LOCAL("操作成功"), SerializerFeature.WriteEnumUsingToString);
+			return JSON.toJSONString(AjaxPageResponse.REFRESH_LOCAL("操作成功"), SerializerFeature.WriteEnumUsingToString);
 		}else{
-			JsonResponse response = new JsonResponse();
+			AjaxPageResponse response = new AjaxPageResponse();
 			response.setNotice("操作失败");
 			response.setNoticeType(NoticeType.ERROR);
 			return JSON.toJSONString(response, SerializerFeature.WriteEnumUsingToString);

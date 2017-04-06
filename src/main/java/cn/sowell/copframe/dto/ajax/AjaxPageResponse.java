@@ -1,17 +1,19 @@
 package cn.sowell.copframe.dto.ajax;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 
 
 /**
  * 
- * <p>Title: JsonResponse</p>
+ * <p>Title: AjaxPageResponse</p>
  * <p>Description: </p><p>
  * 页面发送ajax请求来执行数据时的响应对象，与cpf-ajax中的JsonResponse对象对应
  * </p>
  * @author Copperfield Zhang
  * @date 2017年1月16日 下午5:35:52
  */
-public class JsonResponse {
+public class AjaxPageResponse {
 	//当前页面的动作
 	private PageAction localPageAction;
 	//处理指定页面的id
@@ -27,6 +29,9 @@ public class JsonResponse {
 	private String notice;
 	//响应提示语类型
 	private NoticeType noticeType;
+	//标识
+	@JSONField(name="AJAX_PAGE_RESPONSE")
+	private final String AJAX_PAGE_RESPONSE = "cpf";
 	public String getTargetPageId() {
 		return targetPageId;
 	}
@@ -64,16 +69,16 @@ public class JsonResponse {
 	 * @param msg 响应提示
 	 * @return
 	 */
-	public static JsonResponse REFRESH_LOCAL(String notice){
-		JsonResponse response = new JsonResponse();
+	public static AjaxPageResponse REFRESH_LOCAL(String notice){
+		AjaxPageResponse response = new AjaxPageResponse();
 		response.setLocalPageAction(PageAction.REFRESH);
 		response.setNotice(notice);
 		response.setNoticeType(NoticeType.SUC);
 		return response;
 	}
 	
-	public static JsonResponse FAILD(String notice){
-		JsonResponse response = new JsonResponse();
+	public static AjaxPageResponse FAILD(String notice){
+		AjaxPageResponse response = new AjaxPageResponse();
 		response.setNotice(notice);
 		response.setNoticeType(NoticeType.ERROR);
 		return response;
@@ -85,8 +90,8 @@ public class JsonResponse {
 	 * @param pageId 要刷新的指定页面的id
 	 * @return
 	 */
-	public static JsonResponse CLOSE_AND_REFRESH_PAGE(String notice, String pageId){
-		JsonResponse response = new JsonResponse();
+	public static AjaxPageResponse CLOSE_AND_REFRESH_PAGE(String notice, String pageId){
+		AjaxPageResponse response = new AjaxPageResponse();
 		response.setLocalPageAction(PageAction.CLOSE);
 		response.setTargetPageId(pageId);
 		response.setTargetPageAction(PageAction.REFRESH);
@@ -111,6 +116,9 @@ public class JsonResponse {
 	}
 	public void setNoticeType(NoticeType noticeType) {
 		this.noticeType = noticeType;
+	}
+	public String getAJAX_PAGE_RESPONSE() {
+		return AJAX_PAGE_RESPONSE;
 	}
 	
 	

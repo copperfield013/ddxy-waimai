@@ -16,9 +16,9 @@ define(function(require, exports, module){
 	});
 	
 	/**
-	 * 返回json数据时，将其转换成JsonResponse类对象
+	 * 返回json数据时，将其转换成AjaxPageResponse类对象
 	 */
-	function JsonResponse(_data){
+	function AjaxPageResponse(_data){
 		var defaultResponseData = {
 			//当前页面的处理方式(close:关闭;refresh:重新加载;redirect:url：跳转)
 			localPageAction	: '',
@@ -155,10 +155,14 @@ define(function(require, exports, module){
 		    			if(typeof json === 'string'){
 		    				json = $.parseJSON(json)
 		    			}
-		    			var jRes = new JsonResponse(json);
-		    			var result = param.whenSuc(jRes, 'json');
-		    			if(result !== false){
-		    				jRes.doAction(param.page);
+		    			if(json && json['AJAX_PAGE_RESPONSE'] === ''){
+		    				var jRes = new AjaxPageResponse(json);
+		    				var result = param.whenSuc(jRes, 'json');
+		    				if(result !== false){
+		    					jRes.doAction(param.page);
+		    				}
+		    			}else{
+		    				param.whenSuc(json, 'json');
 		    			}
 		    		}catch(e){
 		    			console.error(e);
