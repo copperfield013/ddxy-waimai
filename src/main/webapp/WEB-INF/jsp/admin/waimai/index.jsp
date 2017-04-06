@@ -8,7 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
 		<link rel="shortcut icon" href="${basePath }media/admin/main/image/icon.jpg" >
-		<link rel="stylesheet" type="text/css" href="${basePath }media/admin/waimai/css/waimai-main.css"   />
+		<link rel="stylesheet" type="text/css" href="${basePath }media/admin/waimai/css/waimai-main-fixed.css"  >
 		<jsp:include page="/WEB-INF/jsp/admin/common/admin-include.jsp"></jsp:include>
 	</head>
 	<body>
