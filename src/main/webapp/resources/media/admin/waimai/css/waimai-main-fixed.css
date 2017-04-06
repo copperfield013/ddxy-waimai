@@ -16,6 +16,7 @@ body{
     bottom: 0;
     margin: 0;
     background-color: #ecf0f1;
+    overflow: hidden;
 }
 /*div {
     display: block;
@@ -30,7 +31,7 @@ li {
     display: inline-block;
 }
 .ydd-wm-container {
-    width: 100%;
+    width: 99.5%;
     position: relative;
 }
 .ydd-wm-left {
