@@ -292,6 +292,7 @@ span.active.ydd-wm-main-title {
 }
 .ydd-wm-main-count-right label {
     font-size: 2em;
+    float:right;
 }
 
 
@@ -360,7 +361,7 @@ div#order-list-title * {
     color: #000;
 }
 div#order-list-wrapper {
-    width: 105%;
+    width: 107%;
     position: absolute;
     top: 2em;
     bottom: 0;
@@ -477,6 +478,7 @@ label#checkout-number {
     font-size: 1.5em;
     padding-right: 0.5em;
     margin: 0 auto;
+    overflow:hidden;
 }
 div#checkout-keyboard {
     width: 65%;
