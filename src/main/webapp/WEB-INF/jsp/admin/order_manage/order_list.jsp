@@ -86,13 +86,36 @@
 					var orderCode = $row.attr('data-code');
 					Dialog.confirm(confirmMsg + orderCode + '？', function(isYes){
 						if(isYes === true){
-							Ajax.ajax('admin/order-manage/setOrderStatus', {
-								'id'	: orderId,
-								'status': status
-							}, {
-								page 	: page
+							var password = $("#password").val();
+							Ajax.ajax('admin/password/validate',{
+								password : password
+							},function(json){
+								if(json.status == 'YES'){
+									Ajax.ajax('admin/order-manage/setOrderStatus', {
+										'id'	: orderId,
+										'status': status
+									}, {
+										page 	: page
+									});
+								}else{
+									Dialog.notice("密码错误！","error");
+								}
 							});
+								/* Ajax.ajax('admin/order-manage/setOrderStatus', {
+									'id'	: orderId,
+									'status': status
+								}, {
+									page 	: page
+								}); */
+							
 						}
+					}, {
+						domHandler : function(dom){
+							dom.append("<div><span>请输入密码：</span><input id=\"password\" type=\"password\" name=\"password\"/></div>");
+						},
+						width		: '300px',
+						height		: '400px',
+						top			: '100px'
 					});
 				}
 			}
