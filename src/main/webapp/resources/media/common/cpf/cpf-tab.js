@@ -92,6 +92,9 @@ define(function(require, exports, module){
 		this.getId = function(){
 			return id;
 		};
+		this.getPage = function(){
+			return page;
+		}
 		
 		this.getTitleDom = function(){
 			return tabDomObj.$title;

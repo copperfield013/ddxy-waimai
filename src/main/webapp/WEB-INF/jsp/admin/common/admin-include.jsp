@@ -26,7 +26,8 @@
 				'print'		: 'COMMON/cpf/cpf-print.js',
 				'ajax'		: 'COMMON/cpf/cpf-ajax.js',
 				'page'		: 'COMMON/cpf/cpf-page.js',
-				'dialog'	: 'COMMON/cpf/cpf-dialog.js'
+				'dialog'	: 'COMMON/cpf/cpf-dialog.js',
+				'tab'		: 'COMMON/cpf/cpf-tab.js'
 				//..其他模块
 		  	}
 		});

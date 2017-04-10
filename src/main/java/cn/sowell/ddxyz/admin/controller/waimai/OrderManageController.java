@@ -59,6 +59,13 @@ public class OrderManageController {
 		return AdminWaiMaiConstants.ROOT_ORDER_MANAGE + "/order_statistics.jsp";
 	}
 	
+	@RequestMapping("/order-detail")
+	public String orderDetail(){
+		return AdminWaiMaiConstants.ROOT_ORDER_MANAGE + "/order_detail.jsp";
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping("/setOrderStatus")
 	public String setOrderStatus(

@@ -56,12 +56,14 @@ define(function(require, exports, module){
 					if(!(targetPage instanceof Page)){
 						//没有找到Page对象，那么就创建一个
 						if(pageType === 'dialog'){
+							var Dialog = require('dialog');
 							var dialog = new Dialog({
 								id		: pageId,
 								title	: title
 							});
 							targetPage = dialog.getPage();
 						}else if(pageType === 'tab'){
+							var Tab = require('tab');
 							var tab = new Tab({
 								id		: pageId,
 								title	: title
