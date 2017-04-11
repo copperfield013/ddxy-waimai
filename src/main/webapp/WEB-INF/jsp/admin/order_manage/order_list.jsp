@@ -53,7 +53,7 @@
 		<c:forEach items="${items }" var="item" varStatus="i">
 			<tr data-id="${item.orderId }" data-code="${item.code }">
 				<td>${i.index + 1}</td>
-				<td><a href="admin/order-manage/order-detail" page-type="tab" target="@order-detail-${item.orderId }" title="订单${item.code }">${item.code }</a></td>
+				<td><a href="admin/order-manage/order-detail?id=${item.orderId }" page-type="tab" target="@order-detail-${item.orderId }" title="订单${item.code }">${item.code }</a></td>
 				<td>${item.receiverName }</td>
 				<td>${item.receiverContact }</td>
 				<td>${item.cupCount }</td>

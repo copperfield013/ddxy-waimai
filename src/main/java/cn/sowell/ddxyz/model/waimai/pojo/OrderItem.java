@@ -6,7 +6,7 @@ import java.util.List;
 public class OrderItem {
 	private Long drinkId;
 	private Integer count;
-	private List<Long> additionIds = new ArrayList<Long>();
+	private List<WaiMaiOrderItemAddition> additions = new ArrayList<WaiMaiOrderItemAddition>();
 	private Integer heatKey;
 	private Integer sweetnessKey;
 	private Integer income;
@@ -18,21 +18,21 @@ public class OrderItem {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
-	public List<Long> getAdditionIds() {
-		return additionIds;
+
+	public List<WaiMaiOrderItemAddition> getAdditions() {
+		return additions;
 	}
-	public void setAdditionIds(List<Long> additionIds) {
-		this.additionIds = additionIds;
+	public void setAdditions(List<WaiMaiOrderItemAddition> additions) {
+		this.additions = additions;
 	}
+	
 	public Long getDrinkId() {
 		return drinkId;
 	}
 	public void setDrinkId(Long drinkId) {
 		this.drinkId = drinkId;
 	}
-	public void addAdditionId(Long additionId) {
-		this.additionIds.add(additionId);
-	}
+
 	public Integer getHeatKey() {
 		return heatKey;
 	}

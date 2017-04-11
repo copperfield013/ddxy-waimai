@@ -28,6 +28,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuGroup;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrder;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiReceiver;
 import cn.sowell.ddxyz.model.waimai.service.AdminWaiMaiService;
 
@@ -166,8 +167,8 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 						wItem.setOrderId(orderId);
 						wItem.setIncome(item.getIncome());
 						//将所有加料的主键连成字符串
-						String additionsChain = CollectionUtils.toChain(item.getAdditionIds());
-						wItem.setAdditionIds(additionsChain);
+						//String additionsChain = CollectionUtils.toChain(item.getAdditionIds());
+						//wItem.setAdditionIds(additionsChain);
 						items.add(wItem);
 					}else{
 						throw new Exception("存在条目没有传入饮料的drinkId");
@@ -175,7 +176,14 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 				}
 				//保存所有订单条目
 				items.forEach(wItem -> {
-					waimaiDao.saveOrderItem(wItem);
+					Long orderItemId = waimaiDao.saveOrderItem(wItem);
+					for(OrderItem item : itemList){
+						for(int i=0; i<item.getAdditions().size(); i++){
+							item.getAdditions().get(i).setItemId(orderItemId);
+							//TODO 保存itemAddition
+							waimaiDao.saveWaiMaiOrderItemAddition(item.getAdditions().get(i));
+						}
+					}
 				});
 			}else{
 				throw new Exception("没有传入订单明细");
@@ -210,6 +218,21 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 	@Override
 	public Integer getOrderNoAndInc() {
 		return waimaiDao.getOrderNoAndInc(new Date());
+	}
+
+	@Override
+	public WaiMaiOrder getOrderById(String id) {
+		return waimaiDao.getOrderById(id);
+	}
+
+	@Override
+	public List<WaiMaiOrderItem> getOrderItemsByOrderId(Long orderId) {
+		return waimaiDao.getOrderItemsByOrderId(orderId);
+	}
+
+	@Override
+	public List<WaiMaiOrderItemAddition> getWMOrderItemAdditionByItemId(Long itemId) {
+		return waimaiDao.getWMOrderItemAdditionByItemId(itemId);
 	}
 	
 }

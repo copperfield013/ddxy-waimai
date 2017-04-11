@@ -1,7 +1,9 @@
 package cn.sowell.ddxyz.admin.controller.waimai;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,10 +18,14 @@ import cn.sowell.copframe.dto.ajax.NoticeType;
 import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.copframe.utils.DateUtils;
 import cn.sowell.ddxyz.model.waimai.AdminWaiMaiConstants;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrder;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
+import cn.sowell.ddxyz.model.waimai.service.AdminWaiMaiService;
 import cn.sowell.ddxyz.model.waimai.service.OrderManageService;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +36,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 public class OrderManageController {
 	@Resource
 	OrderManageService omService;
+	
+	@Resource
+	AdminWaiMaiService adminWaiMaiService;
 	
 	@RequestMapping({"", "/"})
 	public String index(){
@@ -60,7 +69,31 @@ public class OrderManageController {
 	}
 	
 	@RequestMapping("/order-detail")
-	public String orderDetail(){
+	public String orderDetail(String id, Model model){
+		WaiMaiOrder order = adminWaiMaiService.getOrderById(id);
+		if(order != null){
+			List<WaiMaiOrderItem> list = adminWaiMaiService.getOrderItemsByOrderId(order.getId());
+			if(list != null && list.size() > 0){
+				Map<Long, String> additionsNameMap = new HashMap();
+				//TODO
+				for(WaiMaiOrderItem wmOrderItem : list){
+					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
+					if(additions != null && additions.size() > 0){
+						String additionsName = "";
+						for(WaiMaiOrderItemAddition wmOrderItemAddition : additions){
+							additionsName += wmOrderItemAddition.getName() + ",";
+						}
+						additionsName = additionsName.substring(0, additionsName.length()-1);
+						additionsNameMap.put(wmOrderItem.getId(), additionsName);
+					}
+				}
+				model.addAttribute("additionsNameMap", additionsNameMap);
+			}
+			model.addAttribute("orderItems", list);
+		}
+		model.addAttribute("order", order);
+		model.addAttribute("heatMap", AdminWaiMaiConstants.HEAT_MAP);
+		model.addAttribute("sweetnessMap", AdminWaiMaiConstants.SWEETNESS_MAP);
 		return AdminWaiMaiConstants.ROOT_ORDER_MANAGE + "/order_detail.jsp";
 	}
 	

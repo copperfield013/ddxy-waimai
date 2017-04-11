@@ -22,6 +22,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuGroup;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrder;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderNo;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiReceiver;
 
@@ -138,5 +139,45 @@ public class AdminWaiMaiDaoImpl implements AdminWaiMaiDao {
 		String sql = "update t_waimai_order set c_cup_count = :cupCount";
 		SQLQuery query = sFactory.getCurrentSession().createSQLQuery(sql);
 		query.setInteger("cupCount", orderCupCount).executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public WaiMaiOrder getOrderById(String id) {
+		WaiMaiOrder waimaiOrder = null;
+		Session session = sFactory.getCurrentSession();
+		String hql = "from WaiMaiOrder t where t.id = :id";
+		Query query = session.createQuery(hql);
+		query.setString("id", id);
+		List<WaiMaiOrder> list = query.list();
+		if(list != null && list.size() > 0){
+			waimaiOrder = list.get(0);
+		}
+		return waimaiOrder;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<WaiMaiOrderItem> getOrderItemsByOrderId(Long orderId) {
+		Session session = sFactory.getCurrentSession();
+		String hql = "from WaiMaiOrderItem w where w.orderId = :orderId";
+		Query query= session.createQuery(hql);
+		query.setLong("orderId", orderId);
+		return query.list();
+	}
+
+	@Override
+	public Long saveWaiMaiOrderItemAddition(WaiMaiOrderItemAddition woItemAddition) {
+		Session session = sFactory.getCurrentSession();
+		return (Long) session.save(woItemAddition);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WaiMaiOrderItemAddition> getWMOrderItemAdditionByItemId(Long itemId) {
+		Session session = sFactory.getCurrentSession();
+		String hql = "from WaiMaiOrderItemAddition t where t.itemId = :itemId";
+		Query query = session.createQuery(hql);
+		query.setLong("itemId", itemId);
+		return query.list();
 	}
 }

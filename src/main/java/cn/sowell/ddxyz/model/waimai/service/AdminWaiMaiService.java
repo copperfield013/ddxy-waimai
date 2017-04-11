@@ -13,6 +13,9 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiAdditionSize;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuGroup;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrder;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiReceiver;
 
 public interface AdminWaiMaiService {
@@ -75,4 +78,20 @@ public interface AdminWaiMaiService {
 	 * @return 
 	 */
 	Integer getOrderNoAndInc();
+	
+	/**
+	 * 通过订单id获取外卖订单
+	 * @param id
+	 * @return
+	 */
+	WaiMaiOrder getOrderById(String id);
+	
+	/**
+	 * 通过订单id获取订单内容
+	 * @param orderId
+	 * @return
+	 */
+	List<WaiMaiOrderItem> getOrderItemsByOrderId(Long orderId);
+	
+	List<WaiMaiOrderItemAddition> getWMOrderItemAdditionByItemId(Long itemId);
 }

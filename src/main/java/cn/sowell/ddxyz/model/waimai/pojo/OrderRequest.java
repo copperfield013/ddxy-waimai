@@ -69,12 +69,18 @@ public class OrderRequest {
 			iJson.forEach(e -> {
 				JSONObject iData = (JSONObject) e;
 				OrderItem item = new OrderItem();
+				List<WaiMaiOrderItemAddition> list = new ArrayList<WaiMaiOrderItemAddition>();
 				item.setDrinkId(FormatUtils.toLong(iData.get("drinkId")));
 				item.setCount(iData.getInteger("count"));
 				JSONArray iAdditions = iData.getJSONArray("additions");
 				iAdditions.forEach(addi -> {
 					JSONObject aData = (JSONObject) addi;
-					item.addAdditionId(FormatUtils.toLong(aData.get("id")));
+					WaiMaiOrderItemAddition itemAddition = new WaiMaiOrderItemAddition();
+					itemAddition.setAdditionId(FormatUtils.toLong(aData.get("id")));
+					itemAddition.setName(aData.getString("name"));
+					list.add(itemAddition);
+					item.setAdditions(list);
+					//item.addAdditionId(FormatUtils.toLong(aData.get("id")));
 				});
 				item.setHeatKey(FormatUtils.toInteger(iData.get("heatKey")));
 				item.setSweetnessKey(FormatUtils.toInteger(iData.get("sweetnessKey")));

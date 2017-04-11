@@ -17,6 +17,9 @@ public class WaiMaiOrderItem {
 	@Column(name="drink_id")
 	private Long drinkId;
 	
+	@Column(name="c_drink_name")
+	private String drinkName;
+	
 	@Column(name="c_count")
 	private Integer count;
 	
@@ -40,6 +43,12 @@ public class WaiMaiOrderItem {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getDrinkName() {
+		return drinkName;
+	}
+	public void setDrinkName(String drinkName) {
+		this.drinkName = drinkName;
 	}
 	public Long getDrinkId() {
 		return drinkId;

@@ -10,6 +10,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuGroup;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiMenuItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrder;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiReceiver;
 
 public interface AdminWaiMaiDao {
@@ -69,11 +70,23 @@ public interface AdminWaiMaiDao {
 	Integer getOrderNoAndInc(Date date);
 	/**
 	 * 更新
-	 * @param orderId
+	 * @param orderId	
 	 * @param orderCupCount
 	 */
 	void updateOrderCupCount(Long orderId, int orderCupCount);
 	
+	/**
+	 * 通过订单id获取外卖订单
+	 * @param orderId
+	 * @return
+	 */
+	WaiMaiOrder getOrderById(String id);
+	
+	List<WaiMaiOrderItem> getOrderItemsByOrderId(Long orderId);
+	
+	Long saveWaiMaiOrderItemAddition(WaiMaiOrderItemAddition woItemAddition);
+	
+	List<WaiMaiOrderItemAddition> getWMOrderItemAdditionByItemId(Long itemId);
 	
 	
 	
