@@ -154,7 +154,6 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 				Long orderId = waimaiDao.saveOrder(wOrder);
 				
 				//保存订单条目
-				List<WaiMaiOrderItem> items = new ArrayList<WaiMaiOrderItem>();
 				for (OrderItem item : itemList) {
 					if(item.getDrinkId() != null){
 						WaiMaiOrderItem wItem = new WaiMaiOrderItem();
@@ -166,25 +165,17 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 						wItem.setOrderId(orderId);
 						wItem.setIncome(item.getIncome());
 						wItem.setDrinkName(item.getDrinkName());
-						//将所有加料的主键连成字符串
-						//String additionsChain = CollectionUtils.toChain(item.getAdditionIds());
-						//wItem.setAdditionIds(additionsChain);
-						items.add(wItem);
-					}else{
-						throw new Exception("存在条目没有传入饮料的drinkId");
-					}
-				}
-				//保存所有订单条目
-				items.forEach(wItem -> {
-					Long orderItemId = waimaiDao.saveOrderItem(wItem);
-					for(OrderItem item : itemList){
+						
+						Long orderItemId = waimaiDao.saveOrderItem(wItem);
 						for(int i=0; i<item.getAdditions().size(); i++){
 							item.getAdditions().get(i).setItemId(orderItemId);
 							//TODO 保存itemAddition
 							waimaiDao.saveWaiMaiOrderItemAddition(item.getAdditions().get(i));
 						}
+					}else{
+						throw new Exception("存在条目没有传入饮料的drinkId");
 					}
-				});
+				}
 			}else{
 				throw new Exception("没有传入订单明细");
 			}
