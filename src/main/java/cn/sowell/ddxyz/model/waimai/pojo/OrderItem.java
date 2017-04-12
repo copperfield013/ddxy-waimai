@@ -10,6 +10,7 @@ public class OrderItem {
 	private Integer heatKey;
 	private Integer sweetnessKey;
 	private Integer income;
+	private String drinkName;
 	
 	
 	public Integer getCount() {
@@ -50,6 +51,12 @@ public class OrderItem {
 	}
 	public void setIncome(Integer income) {
 		this.income = income;
+	}
+	public String getDrinkName() {
+		return drinkName;
+	}
+	public void setDrinkName(String drinkName) {
+		this.drinkName = drinkName;
 	}
 	
 }

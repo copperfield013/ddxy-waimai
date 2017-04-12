@@ -1177,12 +1177,14 @@ define(function(require, exports, module){
 					itemData.count = item.getCount();
 					itemData.additions = [];
 					itemData.income = item.accountPrice();
+					itemData.drinkName = item.getDrink().getName();
 					var additions = item.getAdditions();
 					for(var j in additions){
 						var addition = additions[j];
 						if(addition instanceof AdditionInfo){
 							itemData.additions.push({
-								id		: addition.getId()
+								id		: addition.getId(),
+								name	: addition.getName()
 							});
 						}
 					}

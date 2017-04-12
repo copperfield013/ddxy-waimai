@@ -72,6 +72,7 @@ public class OrderRequest {
 				List<WaiMaiOrderItemAddition> list = new ArrayList<WaiMaiOrderItemAddition>();
 				item.setDrinkId(FormatUtils.toLong(iData.get("drinkId")));
 				item.setCount(iData.getInteger("count"));
+				item.setDrinkName(iData.getString("drinkName"));
 				JSONArray iAdditions = iData.getJSONArray("additions");
 				iAdditions.forEach(addi -> {
 					JSONObject aData = (JSONObject) addi;

@@ -16,7 +16,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import cn.sowell.copframe.utils.CollectionUtils;
 import cn.sowell.ddxyz.model.waimai.dao.AdminWaiMaiDao;
 import cn.sowell.ddxyz.model.waimai.pojo.OrderItem;
 import cn.sowell.ddxyz.model.waimai.pojo.OrderRequest;
@@ -166,6 +165,7 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 						wItem.setSweetnessKey(item.getSweetnessKey());
 						wItem.setOrderId(orderId);
 						wItem.setIncome(item.getIncome());
+						wItem.setDrinkName(item.getDrinkName());
 						//将所有加料的主键连成字符串
 						//String additionsChain = CollectionUtils.toChain(item.getAdditionIds());
 						//wItem.setAdditionIds(additionsChain);
