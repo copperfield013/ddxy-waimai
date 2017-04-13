@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/base_empty.jsp"%>
+<script src="${basePath }media/admin/plugins/printArea/jquery.PrintArea.js"></script>
 <style>
 	a.cancel-order {
 	    font-weight: bold;
@@ -61,6 +62,7 @@
 					<fmt:formatDate value="${item.createTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+					<a href="#" class="print-order">打印</a>
 					<c:choose>
 						<c:when test="${item.status == 'canceled' }">
 							<a href="#" class="reset-order">恢复</a>
@@ -75,6 +77,73 @@
 	</tbody>
 </table>
 <div class="cpf-paginator" pageNo="${pageInfo.pageNo }" pageSize="${pageInfo.pageSize }" count="${pageInfo.count }"></div>
+<div style="display: none;">
+			<div class="PrintArea print-wrapper">
+				<div class="print-content tttt">
+					<div class="print-title-area">
+						<div class="print-title">
+							一點點
+						</div>
+					</div>
+					<div class="print-desc-area">
+						<div class="print-desc">
+							<span class="print-desc-title">编号:</span>
+							<span class="print-desc-content print-order-code">M150003T</span>
+							<span class="print-desc-content print-milk-divide">1/1</span>
+						</div>
+						<div class="print-desc float-right">
+							<span class="print-desc-title">下单时间:</span>
+							<span class="print-desc-content order-time">10:41:20</span>
+						</div>
+					</div>
+					<div class="print-part-area">
+						<div class="print-part-row">
+							<span class="print-content-title">名称：</span>
+							<span id="view-name">大杯·古早味鲜奶+波霸</span>
+							<span id="heat">去冰</span>
+							<span id="sweetness">七分甜</span>
+						</div>
+						<div class="print-addition-row">
+							<span class="print-content-title">加料：</span>
+							<span id="addition-area">
+								<label>椰果</label>
+								<label>红豆</label>
+								<label>珍珠</label>
+								<label>布丁</label>
+								<label>椰果</label>
+								<label>红豆</label>
+								<label>珍珠</label>
+								<label>椰果</label>
+								<label>红豆</label>
+								<label>珍珠</label>
+								<label>布丁</label>
+							</span>
+						</div>
+						
+					</div>
+					<div class="print-foot-area">
+						<div class="print-amount-area">
+							<span class="print-content-title">价格：</span>
+							<span class="print-order-price">20元</span>
+						</div>
+						<div class="print-addr-area">
+							<span class="print-content-title">配送地址：</span>
+							<span class="print-addr">天虹商场A幢3001天虹商场A幢3001天虹商场A幢3001</span>
+						</div>
+						<div class="print-receiver-row">
+							<div>
+								<span class="print-content-title">联系号码：</span>
+								<span class="print-contact">123456789012</span>
+							</div>
+							<div>
+								<span class="print-content-title">联系人：</span>
+								<span class="print-name">张三</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 <script>
 	$(function(){
 		seajs.use(['ajax', 'dialog', 'utils'], function(Ajax, Dialog, utils){
@@ -146,8 +215,91 @@
 	                firstDay: 0 */
 				}
 			});
+			
+			$(".print-order").click(function(){
+				var $row = $(this).closest('tr[data-id]');
+				var orderId = $row.attr('data-id');
+				Ajax.ajax('admin/order-manage/getPrintOrder', {
+					'id' : orderId
+					},function(json){
+						console.log(json);
+						var itemCount = json.drinks.length;
+						var number = 1;
+						if(itemCount > 0){
+							var $pageContainer = $('<div>');
+							for(var i = 0; i< itemCount; i++){
+								var item = json.drinks[i];
+								var $printArea = $('.PrintArea');
+								var $temp = $printArea.clone();
+								$('.print-order-code', $temp).text(json.orderCode);
+								$('.order-time', $temp).text(json.orderTime);
+								$('#view-name', $temp).text(item.name);
+								$('#heat', $temp).text(item.heat == "null"? '': item.heat);
+								$('#sweetness', $temp).text(item.sweetness == "null"? '': item.sweetness);
+								//填写加料数据
+								var $additionArea = $('#addition-area', $temp).empty();
+								$additionArea.append('<label>' + item.additions + '</label>');
+								//该杯价格
+								$('.print-order-price', $temp).text(item.price / 100 + '元');
+								//联系人信息
+								$('.print-addr', $temp).text(json.receiverAddress);
+								$('.print-contact', $temp).text(json.receiverConcat);
+								$('.print-name', $temp).text(json.receiverName);
+								
+								for(var k = 0; k < item.cupCount; k++){
+									var $page = $temp.clone();
+									$('.print-milk-divide', $page).text(number++ + '/' + json.totalCount);
+									$pageContainer.prepend($page);
+								}
+							}
+						}
+						var headElements ='<meta charset="utf-8" />,<meta http-equiv="X-UA-Compatible" content="chrome=1"/>';
+						var basePath = $('base').attr('href');
+					    var options = { 
+					    		mode 		: "iframe", 
+					    		extraHead 	: headElements,
+					    		extraCss	: basePath + 'media/admin/waimai/css/print.css'
+					    	};
+					    //appendStatPage($pageContainer, currentOrder);
+					    var $temp1 = $pageContainer.children('div:first').clone();
+						var $totalPriceRow = $('<div class="print-part-row-half">'),
+							$originalPriceRow = $('<div class="print-part-row-half">'),
+							$promotionRow = $('<div class="print-part-row-half">'),
+							$totalCountRow = $('<div class="print-part-row-half">')
+							;
+						
+						$originalPriceRow
+							.append($('<span class="print-content-title">').text('原价：'))
+							.append($('<span>').text((json.originIncome / 100 ) + '元'))
+							;
+						$promotionRow
+							.append($('<span class="print-content-title">').text('优惠价格：'))
+							.append($('<span>').text(((json.originIncome - json.totalIncome) / 100 ) + '元'))
+							;
+						$totalPriceRow
+							.append($('<span class="print-content-title">').text('总价：'))
+							.append($('<span>').text((json.totalIncome / 100 )+ '元'))
+							;
+						$totalCountRow
+							.append($('<span class="print-content-title">').text('总杯数：'))
+							.append($('<span>').text(json.totalCount))
+						;
+						
+						$('.print-title', $temp1).text('统计单');
+						$('.print-part-area', $temp1)
+							.empty()
+							.append($originalPriceRow)
+							.append($promotionRow)
+							.append($totalPriceRow)
+							.append($totalCountRow)
+							;
+						$('.print-milk-divide', $temp1).remove();
+						$('.print-amount-area', $temp1).remove();
+						$pageContainer.append($temp1);
+					    $pageContainer.clone().printArea(options);
+					});
+			});
 		});
-		
 	});
 </script>
 

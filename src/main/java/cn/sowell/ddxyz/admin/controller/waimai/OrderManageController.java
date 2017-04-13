@@ -1,5 +1,7 @@
 package cn.sowell.ddxyz.admin.controller.waimai;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +77,6 @@ public class OrderManageController {
 			List<WaiMaiOrderItem> list = adminWaiMaiService.getOrderItemsByOrderId(order.getId());
 			if(list != null && list.size() > 0){
 				Map<Long, String> additionsNameMap = new HashMap();
-				//TODO
 				for(WaiMaiOrderItem wmOrderItem : list){
 					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
 					if(additions != null && additions.size() > 0){
@@ -113,6 +114,51 @@ public class OrderManageController {
 			response.setNoticeType(NoticeType.ERROR);
 			return JSON.toJSONString(response, SerializerFeature.WriteEnumUsingToString);
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getPrintOrder")
+	public String prePrintOrder(@RequestParam("id") String orderId){
+		DateFormat df = new SimpleDateFormat("HH:mm:ss");
+		WaiMaiOrder order = adminWaiMaiService.getOrderById(orderId);
+		String result = "";
+		if(order != null){
+			result += "{\"orderCode\":\"" + order.getCode() +"\","
+					+ "\"orderTime\":\"" + df.format(order.getCreateTime()) + "\","
+					+ "\"receiverName\":\"" + order.getReceiverName() + "\","
+					+ "\"receiverAddress\":\"" + order.getReceiverAddress() + "\","
+					+ "\"receiverContact\":\"" + order.getReceiverContact() + "\","
+					+ "\"totalCount\":\"" + order.getCupCount() + "\","
+					+ "\"totalIncome\":\"" + order.getTotalIncome() + "\","
+					+ "\"originIncome\":\"" + order.getOriginIncome() + "\"";
+			List<WaiMaiOrderItem> list = adminWaiMaiService.getOrderItemsByOrderId(order.getId());
+			if(list != null && list.size() > 0){
+				result += ",\"drinks\":[";
+				for(WaiMaiOrderItem wmOrderItem : list){
+					result +="{\"name\":\"" + wmOrderItem.getDrinkName() + "\","
+							+ "\"sweetness\":\"" + AdminWaiMaiConstants.SWEETNESS_MAP.get(wmOrderItem.getSweetnessKey()) + "\","
+							+ "\"heat\":\"" + AdminWaiMaiConstants.HEAT_MAP.get(wmOrderItem.getHeatKey()) + "\","
+							+ "\"price\":\"" + wmOrderItem.getIncome() + "\","
+							+ "\"cupCount\":\"" + wmOrderItem.getCount() + "\"";
+							
+					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
+					if(additions != null && additions.size() > 0){
+						String additionsName = "";
+						for(WaiMaiOrderItemAddition wmOrderItemAddition : additions){
+							additionsName += wmOrderItemAddition.getName() + "、";
+						}
+						additionsName = additionsName.substring(0, additionsName.length()-1);
+						//additionsNameMap.put(wmOrderItem.getId(), additionsName);
+						result +=",\"additions\":\"" + additionsName +"\"},";
+					}
+				}
+				result = result.substring(0, result.length()-1);
+				result += "]";
+			}
+			result +="}";
+		}
+		System.out.println("------result:"+result);
+		return result;
 	}
 	
 }
