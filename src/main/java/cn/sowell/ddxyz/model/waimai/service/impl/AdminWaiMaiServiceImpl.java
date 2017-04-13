@@ -139,6 +139,7 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 				TakeawayPlatform takeaway = order.getTakeaway();
 				//订单总价
 				wOrder.setTotalIncome(order.getTotalIncome());
+				wOrder.setOriginIncome(order.getOriginIncome());
 				if(takeaway != null){
 					wOrder.setTakeawayKey(takeaway.getKey());
 				}

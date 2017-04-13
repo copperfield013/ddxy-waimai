@@ -1147,10 +1147,14 @@ define(function(require, exports, module){
 		 */
 		this.getSubmitData = function(){
 			var data = {};
+			var statistics = currentOrder.makeStatistics();
 			//订单号
 			data.code = this.getCode();
+			//订单原价
+			data.originIncome = statistics.originPrice;
 			//订单总价格
-			data.totalIncome = this.accountPrice();
+			data.totalIncome = statistics.price;
+			
 			//收货信息
 			if(receiver instanceof Receiver){
 				data.receiver = {
