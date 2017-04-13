@@ -40,6 +40,9 @@ public class WaiMaiOrder {
 	@Column(name="c_total_income")
 	private Integer totalIncome;
 	
+	@Column(name="c_origin_income")
+	private Integer originIncome;
+	
 	@Column(name="c_cup_count")
 	private Integer cupCount;
 	
@@ -114,5 +117,11 @@ public class WaiMaiOrder {
 	}
 	public void setCupCount(Integer cupCount) {
 		this.cupCount = cupCount;
+	}
+	public Integer getOriginIncome() {
+		return originIncome;
+	}
+	public void setOriginIncome(Integer originIncome) {
+		this.originIncome = originIncome;
 	}
 }
