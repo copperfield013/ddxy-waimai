@@ -1147,7 +1147,7 @@ define(function(require, exports, module){
 		 */
 		this.getSubmitData = function(){
 			var data = {};
-			var statistics = currentOrder.makeStatistics();
+			var statistics = this.makeStatistics();
 			//订单号
 			data.code = this.getCode();
 			//订单原价
