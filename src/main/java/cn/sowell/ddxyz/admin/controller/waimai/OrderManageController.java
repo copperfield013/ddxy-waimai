@@ -157,7 +157,6 @@ public class OrderManageController {
 			}
 			result +="}";
 		}
-		System.out.println("------result:"+result);
 		return result;
 	}
 	
