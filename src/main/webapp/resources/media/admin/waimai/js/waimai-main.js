@@ -1151,7 +1151,7 @@ define(function(require, exports, module){
 			//订单号
 			data.code = this.getCode();
 			//订单原价
-			data.originIncome = statistics.originPrice;
+			data.originIncome = statistics.originalPrice;
 			//订单总价格
 			data.totalIncome = statistics.price;
 			

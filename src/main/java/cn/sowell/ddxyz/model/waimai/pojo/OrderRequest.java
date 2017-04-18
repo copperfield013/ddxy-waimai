@@ -54,7 +54,7 @@ public class OrderRequest {
 		//订单号
 		order.setCode(json.getString("code"));
 		order.setTotalIncome(json.getInteger("totalIncome"));
-		order.setOriginIncome(json.getInteger("origin_income"));
+		order.setOriginIncome(json.getInteger("originIncome"));
 		//收货信息
 		WaiMaiReceiver receiver = new WaiMaiReceiver();
 		JSONObject rJson = json.getJSONObject("receiver");
