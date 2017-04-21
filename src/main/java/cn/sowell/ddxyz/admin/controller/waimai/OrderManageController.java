@@ -148,14 +148,14 @@ public class OrderManageController {
 					jDrinks.add(jItem);
 							
 					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
+					String additionsName = "";
 					if(additions != null && additions.size() > 0){
-						String additionsName = "";
 						for(WaiMaiOrderItemAddition wmOrderItemAddition : additions){
 							additionsName += wmOrderItemAddition.getName() + "、";
 						}
 						additionsName = additionsName.substring(0, additionsName.length()-1);
-						jItem.put("additions", additionsName);
 					}
+					jItem.put("additions", additionsName);
 				}
 			}
 		}
