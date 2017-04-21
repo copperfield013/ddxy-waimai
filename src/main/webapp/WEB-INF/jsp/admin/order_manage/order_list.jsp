@@ -10,6 +10,14 @@
 	    font-weight: bold;
 	    color: #4F94CD;
 	}
+	.dialog-confirm-msg {
+	    font-size: 1.2em;
+	    line-height: 3em;
+	    margin-left: 2em;
+	}
+	.dialog-confirm-msg #password{
+		height: 2em;
+	}
 </style>
 <nav style="padding: 1em 0">
 	<form class="form-inline" action="admin/order-manage/order-list" >
@@ -104,20 +112,13 @@
 									Dialog.notice("密码错误！","error");
 								}
 							});
-								/* Ajax.ajax('admin/order-manage/setOrderStatus', {
-									'id'	: orderId,
-									'status': status
-								}, {
-									page 	: page
-								}); */
 							
 						}
 					}, {
 						domHandler : function(dom){
 							dom.append("<div><span>请输入密码：</span><input id=\"password\" type=\"password\" name=\"password\"/></div>");
 						},
-						width		: '300px',
-						height		: '400px',
+						width		: '800px',
 						top			: '100px'
 					});
 				}

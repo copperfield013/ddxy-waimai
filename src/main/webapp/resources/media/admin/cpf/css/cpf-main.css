@@ -123,6 +123,8 @@ li.main-tab-title>a{
 .detail {
     display: table;
     width: 100%;
+    margin: 20px 10px;
+    padding-bottom: 10px;
 }
 .detail>dl{
 	display: table-row;

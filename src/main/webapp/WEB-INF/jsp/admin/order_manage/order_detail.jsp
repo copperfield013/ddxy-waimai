@@ -6,18 +6,21 @@
 		display: block;
 		width: 100%;
 	}
-	.left{
-		float:left;
+	.order-table-cell>.item-detail-wrapper:nth-child(odd) {
+	    clear: left;
 	}
-	.right{
-		float:left;
+	.item-detail-wrapper {
+	    display: block;
+	    float: left;
+	    width: 41%;
+	    margin-right: 3%;
 	}
 	.item-detail{
 		display: table;
-   	 	width: 45%;
-   	 	border: 1px solid #FF0000;
-   	 	margin-right: 10px;
-   	 	margin-top: 20px;
+	    width: 100%;
+	    border: 1px solid #FF0000;
+	    padding: 10px 10px;
+	    margin: 20px 10px 10px 0;
 	}
 	.item-detail>dl{
 		display: table-row;
@@ -42,9 +45,10 @@
 <div class="detail" id="order-${order.id }">
 	<input id="orderIdHidden" type="hidden" name="id" value="${order.id }">
 	<dl>
-		<dt></dt>
-		<dd style="float:right;">
-			<a href="#" class="print-order">打印</a>
+		<dt>订单号</dt>
+		<dd>
+			${order.code }
+			<a href="#" class="fa fa-print print-order" title="打印"></a>
 		</dd>
 	</dl>
 	<dl>
@@ -73,7 +77,9 @@
 	</dl>
 	<dl>
 		<dt>下单时间</dt>
-		<dd>${order.createTime }</dd>
+		<dd>
+			<fmt:formatDate value="${order.createTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+		</dd>
 	</dl>
 	<dl>
 		<dt></dt>
@@ -81,27 +87,29 @@
 			<div class="order-table-cell">
 				<c:if test="${orderItems != null }">
 					<c:forEach items="${orderItems }" var="item" varStatus="status">
-						<div class="item-detail ${status.count%2 == 1? 'left' : 'right' }">
-							<dl>
-								<dt>饮料名称</dt>
-								<dd>${item.drinkName }</dd>
-							</dl>
-							<dl>
-								<dt>杯数</dt>
-								<dd>${item.count }</dd>
-							</dl>
-							<dl>
-								<dt>甜度</dt>
-								<dd>${sweetnessMap[item.sweetnessKey] }</dd>
-							</dl>
-							<dl>
-								<dt>冰度</dt>
-								<dd>${heatMap[item.heatKey] }</dd>
-							</dl>
-							<dl>
-								<dt>加料</dt>
-								<dd>${additionsNameMap[item.id] }</dd>
-							</dl>
+						<div class="item-detail-wrapper">
+							<div class="item-detail">
+								<dl>
+									<dt>饮料名称</dt>
+									<dd>${item.drinkName }</dd>
+								</dl>
+								<dl>
+									<dt>杯数</dt>
+									<dd>${item.count }</dd>
+								</dl>
+								<dl>
+									<dt>甜度</dt>
+									<dd>${sweetnessMap[item.sweetnessKey] }</dd>
+								</dl>
+								<dl>
+									<dt>冰度</dt>
+									<dd>${heatMap[item.heatKey] }</dd>
+								</dl>
+								<dl>
+									<dt>加料</dt>
+									<dd>${additionsNameMap[item.id] }</dd>
+								</dl>
+							</div>
 						</div>
 					</c:forEach>
 				</c:if>

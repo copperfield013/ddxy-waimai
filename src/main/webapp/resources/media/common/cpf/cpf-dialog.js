@@ -77,8 +77,13 @@ define(function(require, exports, module){
 				overflowX	: 'auto',
 				overflowY	: 'auto'
 			});
+			
 		});
-		//
+		//模态框显示之后
+		$model.on('shown.bs.modal', function () {
+			$wrapper.find(':input:first').focus();
+		});
+		//关闭弹出框时
 		$model.on('hidden.bs.modal', function () {
 			if(typeof param.onClose === 'function'){
 				var result = param.onClose.call(this);
