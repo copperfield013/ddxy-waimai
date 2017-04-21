@@ -3,7 +3,7 @@ package cn.sowell.ddxyz.admin.controller.waimai;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +31,8 @@ import cn.sowell.ddxyz.model.waimai.service.AdminWaiMaiService;
 import cn.sowell.ddxyz.model.waimai.service.OrderManageService;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 @Controller
@@ -76,7 +78,7 @@ public class OrderManageController {
 		if(order != null){
 			List<WaiMaiOrderItem> list = adminWaiMaiService.getOrderItemsByOrderId(order.getId());
 			if(list != null && list.size() > 0){
-				Map<Long, String> additionsNameMap = new HashMap();
+				Map<Long, String> additionsNameMap = new LinkedHashMap<Long, String>();
 				for(WaiMaiOrderItem wmOrderItem : list){
 					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
 					if(additions != null && additions.size() > 0){
@@ -121,25 +123,29 @@ public class OrderManageController {
 	public String prePrintOrder(@RequestParam("id") String orderId){
 		DateFormat df = new SimpleDateFormat("HH:mm:ss");
 		WaiMaiOrder order = adminWaiMaiService.getOrderById(orderId);
-		String result = "";
+		//String result = "";
+		JSONObject jo = new JSONObject();
 		if(order != null){
-			result += "{\"orderCode\":\"" + order.getCode() +"\","
-					+ "\"orderTime\":\"" + df.format(order.getCreateTime()) + "\","
-					+ "\"receiverName\":\"" + order.getReceiverName() + "\","
-					+ "\"receiverAddress\":\"" + order.getReceiverAddress() + "\","
-					+ "\"receiverContact\":\"" + order.getReceiverContact() + "\","
-					+ "\"totalCount\":\"" + order.getCupCount() + "\","
-					+ "\"totalIncome\":\"" + order.getTotalIncome() + "\","
-					+ "\"originIncome\":\"" + order.getOriginIncome() + "\"";
+			jo.put("orderCode", order.getCode());
+			jo.put("orderTime", df.format(order.getCreateTime()));
+			jo.put("receiverName", order.getReceiverName());
+			jo.put("receiverAddress", order.getReceiverAddress());
+			jo.put("receiverContact", order.getReceiverContact());
+			jo.put("totalCount", order.getCupCount());
+			jo.put("totalIncome", order.getTotalIncome());
+			jo.put("originIncome", order.getOriginIncome());
 			List<WaiMaiOrderItem> list = adminWaiMaiService.getOrderItemsByOrderId(order.getId());
 			if(list != null && list.size() > 0){
-				result += ",\"drinks\":[";
+				JSONArray jDrinks = new JSONArray();
+				jo.put("drinks", jDrinks);
 				for(WaiMaiOrderItem wmOrderItem : list){
-					result +="{\"name\":\"" + wmOrderItem.getDrinkName() + "\","
-							+ "\"sweetness\":\"" + AdminWaiMaiConstants.SWEETNESS_MAP.get(wmOrderItem.getSweetnessKey()) + "\","
-							+ "\"heat\":\"" + AdminWaiMaiConstants.HEAT_MAP.get(wmOrderItem.getHeatKey()) + "\","
-							+ "\"price\":\"" + wmOrderItem.getIncome() + "\","
-							+ "\"cupCount\":\"" + wmOrderItem.getCount() + "\"";
+					JSONObject jItem = new JSONObject();
+					jItem.put("name", wmOrderItem.getDrinkName());
+					jItem.put("sweetness", AdminWaiMaiConstants.SWEETNESS_MAP.get(wmOrderItem.getSweetnessKey()));
+					jItem.put("heat", AdminWaiMaiConstants.HEAT_MAP.get(wmOrderItem.getHeatKey()));
+					jItem.put("price", wmOrderItem.getIncome());
+					jItem.put("cupCount", wmOrderItem.getCount());
+					jDrinks.add(jItem);
 							
 					List<WaiMaiOrderItemAddition> additions = adminWaiMaiService.getWMOrderItemAdditionByItemId(wmOrderItem.getId());
 					if(additions != null && additions.size() > 0){
@@ -148,16 +154,12 @@ public class OrderManageController {
 							additionsName += wmOrderItemAddition.getName() + "、";
 						}
 						additionsName = additionsName.substring(0, additionsName.length()-1);
-						//additionsNameMap.put(wmOrderItem.getId(), additionsName);
-						result +=",\"additions\":\"" + additionsName +"\"},";
+						jItem.put("additions", additionsName);
 					}
 				}
-				result = result.substring(0, result.length()-1);
-				result += "]";
 			}
-			result +="}";
 		}
-		return result;
+		return jo.toString();
 	}
 	
 }
