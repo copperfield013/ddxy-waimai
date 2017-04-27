@@ -27,7 +27,7 @@ define(function(require, exports, module){
 						$('.print-order-price', $temp).text(item.price / 100 + '元');
 						//联系人信息
 						$('.print-addr', $temp).text(json.receiverAddress);
-						$('.print-contact', $temp).text(json.receiverConcat);
+						$('.print-contact', $temp).text(json.receiverContact);
 						$('.print-name', $temp).text(json.receiverName);
 						
 						for(var k = 0; k < item.cupCount; k++){
