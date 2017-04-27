@@ -35,5 +35,9 @@ public interface OrderManageService {
 	 */
 	List<OrderStatisticsListItem> statisticOrder(
 			OrderStatisticsCriteria criteria, CommonPageInfo pageInfo);
+	
+	
+	
+	void additionChange();
 
 }

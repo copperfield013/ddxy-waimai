@@ -1,7 +1,9 @@
 package cn.sowell.ddxyz.model.waimai.dao.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,10 @@ import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.copframe.utils.DateUtils;
 import cn.sowell.ddxyz.model.waimai.AdminWaiMaiConstants;
 import cn.sowell.ddxyz.model.waimai.dao.OrderManageDao;
+import cn.sowell.ddxyz.model.waimai.pojo.OrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiAddition;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
@@ -182,5 +188,27 @@ public class OrderManageDaoImpl implements OrderManageDao{
 		return new ArrayList<OrderStatisticsListItem>();
 	}
 	
+	@Override
+	public List<WaiMaiOrderItem> getAllOrderItems() {
+		String hql = "from WaiMaiOrderItem";
+		return sFactory.getCurrentSession().createQuery(hql).list();
+	}
+	
+	@Override
+	public Map<Long, String> getAllAddionCnameMap() {
+		String hql = "from WaiMaiAddition";
+		List<WaiMaiAddition> list = sFactory.getCurrentSession().createQuery(hql).list();
+		Map<Long, String> map = new LinkedHashMap<Long, String>();
+		for (WaiMaiAddition addition : list) {
+			map.put(addition.getId(), addition.getName());
+		}
+		return map;
+	}
+	
+	
+	@Override
+	public void saveAddition(WaiMaiOrderItemAddition addition) {
+		sFactory.getCurrentSession().save(addition);
+	}
 
 }

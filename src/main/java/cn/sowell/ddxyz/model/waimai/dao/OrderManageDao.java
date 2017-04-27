@@ -1,8 +1,12 @@
 package cn.sowell.ddxyz.model.waimai.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.sowell.copframe.dto.page.CommonPageInfo;
+import cn.sowell.ddxyz.model.waimai.pojo.OrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
@@ -34,6 +38,12 @@ public interface OrderManageDao {
 	 */
 	List<OrderStatisticsListItem> statisticOrder(
 			OrderStatisticsCriteria criteria, CommonPageInfo pageInfo);
+
+	List<WaiMaiOrderItem> getAllOrderItems();
+
+	Map<Long, String> getAllAddionCnameMap();
+
+	void saveAddition(WaiMaiOrderItemAddition addition);
 
 
 }

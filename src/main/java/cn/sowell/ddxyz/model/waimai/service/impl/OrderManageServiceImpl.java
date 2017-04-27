@@ -1,6 +1,7 @@
 package cn.sowell.ddxyz.model.waimai.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.ddxyz.model.waimai.AdminWaiMaiConstants;
 import cn.sowell.ddxyz.model.waimai.dao.OrderManageDao;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
+import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
@@ -48,6 +51,29 @@ public class OrderManageServiceImpl implements OrderManageService{
 	public List<OrderStatisticsListItem> statisticOrder(
 			OrderStatisticsCriteria criteria, CommonPageInfo pageInfo) {
 		return omDao.statisticOrder(criteria, pageInfo);
+		
+	}
+	
+	@Override
+	public void additionChange() {
+		List<WaiMaiOrderItem> orderItems = omDao.getAllOrderItems();
+		Map<Long, String> additionCname = omDao.getAllAddionCnameMap();
+		for (WaiMaiOrderItem item : orderItems) {
+			String additionStr = item.getAdditionIds();
+			if(additionStr != null){
+				String[] split = additionStr.split(",");
+				for (String additionId : split) {
+					if(!additionId.isEmpty()){
+						Long aid = Long.valueOf(additionId);
+						WaiMaiOrderItemAddition addition = new WaiMaiOrderItemAddition();
+						addition.setItemId(item.getId());
+						addition.setAdditionId(aid);
+						addition.setName(additionCname.get(aid));
+						omDao.saveAddition(addition);
+					}
+				}
+			}
+		}
 		
 	}
 	
