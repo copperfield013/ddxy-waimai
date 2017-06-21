@@ -9,6 +9,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
+import cn.sowell.ddxyz.model.waimai.pojo.item.OrderMonthList;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
 
 public interface OrderManageDao {
@@ -43,6 +44,13 @@ public interface OrderManageDao {
 	Map<Long, String> getAllAddionCnameMap();
 
 	void saveAddition(WaiMaiOrderItemAddition addition);
+
+	/**
+	 * 获取月统计列表
+	 * @pageInfo
+	 * @return
+	 */
+	List<OrderMonthList> OrderMonthList(CommonPageInfo pageInfo);
 
 
 }
