@@ -103,7 +103,7 @@ define(function(require, exports, module){
 		
 		
 		//构造分页器的每页条数选择器
-		var pageSizeSelect = $('<select>');
+		var pageSizeSelect = $('<select class="page-size-select">');
 		
 		if(pageCount > maxPageCount){
 			//超过最大显示页数时，只显示部分页数
@@ -205,7 +205,8 @@ define(function(require, exports, module){
 			e.stopImmediatePropagation();
 			var goPageNo = Number($(this).text());
 			var page = $(this).getLocatePage();
-			goPage(page, goPageNo);
+			var pageSize = a.closest('.' + $CPF.getParam('paginatorClass')).find('select.page-size-select').val();
+			goPage(page, goPageNo, pageSize);
 			return false;
 		});
 		var li = $('<li>').append(a);
