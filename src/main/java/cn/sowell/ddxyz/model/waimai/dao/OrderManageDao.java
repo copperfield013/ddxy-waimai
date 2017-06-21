@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.sowell.copframe.dto.page.CommonPageInfo;
-import cn.sowell.ddxyz.model.waimai.pojo.OrderItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;

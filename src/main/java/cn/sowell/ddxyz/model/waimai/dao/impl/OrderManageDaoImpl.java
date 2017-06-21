@@ -25,7 +25,6 @@ import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.copframe.utils.DateUtils;
 import cn.sowell.ddxyz.model.waimai.AdminWaiMaiConstants;
 import cn.sowell.ddxyz.model.waimai.dao.OrderManageDao;
-import cn.sowell.ddxyz.model.waimai.pojo.OrderItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItem;
 import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
@@ -188,12 +187,14 @@ public class OrderManageDaoImpl implements OrderManageDao{
 		return new ArrayList<OrderStatisticsListItem>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<WaiMaiOrderItem> getAllOrderItems() {
 		String hql = "from WaiMaiOrderItem";
 		return sFactory.getCurrentSession().createQuery(hql).list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<Long, String> getAllAddionCnameMap() {
 		String hql = "from WaiMaiAddition";
