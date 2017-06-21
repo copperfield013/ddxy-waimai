@@ -16,6 +16,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
+import cn.sowell.ddxyz.model.waimai.pojo.item.OrderMonthList;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
 import cn.sowell.ddxyz.model.waimai.service.OrderManageService;
 
@@ -74,6 +75,12 @@ public class OrderManageServiceImpl implements OrderManageService{
 				}
 			}
 		}
+		
+	}
+
+	@Override
+	public List<OrderMonthList> monthList( CommonPageInfo pageInfo) {
+		return omDao.OrderMonthList( pageInfo);
 		
 	}
 	
