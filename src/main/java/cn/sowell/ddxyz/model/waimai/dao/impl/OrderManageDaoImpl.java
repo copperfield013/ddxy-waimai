@@ -169,6 +169,7 @@ public class OrderManageDaoImpl implements OrderManageDao{
 		pageInfo.setCount(count);
 		if(count > 0){
 			SQLQuery query = dQuery.createSQLQuery(session, false, null);
+			QueryUtils.setPagingParamWithCriteria(query, pageInfo);
 			query.setResultTransformer(new ColumnMapResultTransformer<OrderStatisticsListItem>() {
 
 				@Override
