@@ -6,6 +6,7 @@ import cn.sowell.copframe.dto.page.CommonPageInfo;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
+import cn.sowell.ddxyz.model.waimai.pojo.item.OrderMonthList;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
 
 public interface OrderManageService {
@@ -39,5 +40,12 @@ public interface OrderManageService {
 	
 	
 	void additionChange();
+	
+	/*
+	 * 获得月统计列表
+	 * 
+	 */
+	List<OrderMonthList> monthList(
+			CommonPageInfo pageInfo);
 
 }
