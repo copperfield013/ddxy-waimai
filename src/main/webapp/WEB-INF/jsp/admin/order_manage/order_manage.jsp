@@ -80,6 +80,11 @@
                                			<span class="menu-text">订单统计</span>
                                		</a>
                                	</li>
+                               	<li>
+                               		<a class="tab" href="admin/order-manage/ordermonth-list" target="ordermonth_list" title="月统计">
+                               			<span class="menu-text">月统计</span>
+                               		</a>
+                               	</li>
 							</ul>
 	                    </li>
 					</ul>
