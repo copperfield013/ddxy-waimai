@@ -26,6 +26,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.WaiMaiOrderItemAddition;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
+import cn.sowell.ddxyz.model.waimai.pojo.item.OrderMonthList;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
 import cn.sowell.ddxyz.model.waimai.service.AdminWaiMaiService;
 import cn.sowell.ddxyz.model.waimai.service.OrderManageService;
@@ -72,6 +73,13 @@ public class OrderManageController {
 		return AdminWaiMaiConstants.ROOT_ORDER_MANAGE + "/order_statistics.jsp";
 	}
 	
+	@RequestMapping("/ordermonth-list")
+	public String orderMonth(CommonPageInfo pageInfo, Model model){
+		List<OrderMonthList> monthlist = omService.monthList(pageInfo);
+		model.addAttribute("monthlist", monthlist);
+		model.addAttribute("pageInfo", pageInfo);
+		return AdminWaiMaiConstants.ROOT_ORDER_MANAGE + "/ordermonth_list.jsp";
+	}
 	@RequestMapping("/order-detail")
 	public String orderDetail(String id, Model model){
 		WaiMaiOrder order = adminWaiMaiService.getOrderById(id);
