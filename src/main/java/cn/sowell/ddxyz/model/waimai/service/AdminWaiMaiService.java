@@ -72,6 +72,12 @@ public interface AdminWaiMaiService {
 	 * @return
 	 */
 	WaiMaiReceiver getReceiverByContact(String contact);
+	/**
+	 * 根据备注获得收货人的信息
+	 * @param contact
+	 * @return
+	 */
+	List<WaiMaiReceiver> getReceiverByComment(String comment);
 
 	/**
 	 * 获得最新可用的订单号

@@ -109,6 +109,15 @@ public class AdminWaiMaiDaoImpl implements AdminWaiMaiDao {
 	}
 	
 	@Override
+	public List<WaiMaiReceiver> getReceiverByComment(String comment) {
+		Session session = sFactory.getCurrentSession();
+		String hql = "from WaiMaiReceiver w where w.comment = :comment";
+		Query query = session.createQuery(hql);
+		query.setString("comment", comment);
+		return query.list();
+	}
+	
+	@Override
 	public synchronized Integer getOrderNoAndInc(Date date) {
 		String sql = "select n.c_order_no from t_waimai_order_no n where n.c_the_day = :theDay";
 		Session session = sFactory.getCurrentSession();

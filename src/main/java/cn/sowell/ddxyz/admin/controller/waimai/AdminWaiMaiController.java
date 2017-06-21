@@ -113,6 +113,22 @@ public class AdminWaiMaiController {
 		return jo.toJSONString();
 	}
 	
+	@ResponseBody
+	@RequestMapping("/loadReceiverByCom")
+	public String loadReceiverByCom(String comment){
+		JSONObject jo = new JSONObject();
+		if(StringUtils.hasText(comment)){
+			List<WaiMaiReceiver> receiver = waimaiService.getReceiverByComment(comment);
+			if(receiver != null){
+				jo.put("status", "suc");
+				jo.put("receiver", JSON.toJSON(receiver));
+			}
+		}else{
+			jo.put("status", "err");
+		}
+		return jo.toJSONString();
+	}
+	
 	@RequestMapping("/showPrint")
 	public String showPrint(){
 		return "/admin/waimai/print-area.jsp";

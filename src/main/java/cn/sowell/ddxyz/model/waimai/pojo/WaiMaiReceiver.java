@@ -25,6 +25,9 @@ public class WaiMaiReceiver {
 	@Column(name="c_contact_num")
 	private String contact;
 	
+	@Column(name="c_comment")
+	private String comment;
+	
 	@Column(name="create_time")
 	private Date createTime;
 
@@ -54,6 +57,12 @@ public class WaiMaiReceiver {
 	}
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public Date getCreateTime() {
 		return createTime;

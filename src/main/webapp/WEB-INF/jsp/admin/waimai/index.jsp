@@ -58,7 +58,7 @@
 					<div class="ydd-wm-main-addition-wrapper">
 						<div class="ydd-wm-additions-container">
 							<c:forEach items="${additions }" var="addition">
-								<span data-id="${addition.id }" data-price="${addition.basePrice }" data-name="${addition.name }" data-tag="${addition.tags }">${addition.view }</span>
+								<span class="addition" data-id="${addition.id }" data-price="${addition.basePrice }" data-name="${addition.name }" data-tag="${addition.tags }">${addition.view }</span>
 							</c:forEach>
 						</div>
 						<div class="ydd-wm-heats-container">
@@ -94,8 +94,9 @@
 							</div>
 						</div>
 						<div class="ydd-wm-main-count-receiver-row">
+							<div id="view-receiver-comment" class="ydd-wm-receiver-view-content"  style="display:none;"></div>
 							<div class="ydd-wm-receiver-view-title ydd-wm-receiver-address-title">配送地址:</div>
-							<div id="view-receiver-address" class="ydd-wm-receiver-view-content"></div>
+							<div id="view-receiver-address" class="ydd-wm-receiver-view-content"></div>									
 						</div>
 					</div>
 					<div id="total-price" class="ydd-wm-main-count-right">
@@ -151,6 +152,12 @@
 			</div>
 			<div class="ydd-wm-receiver-container" style="display: none;">
 				<div class="ydd-wm-receiver-wrapper">
+					<div class="ydd-wm-receiver-row">
+						<div class="ydd-wm-msg-title">备注</div>
+						<div class="ydd-wm-msg-content">
+							<input type="text" id="receiver-comment" />
+						</div>
+					</div>
 					<div class="ydd-wm-receiver-row">
 						<div class="ydd-wm-msg-title">手机号码</div>
 						<div class="ydd-wm-msg-content">

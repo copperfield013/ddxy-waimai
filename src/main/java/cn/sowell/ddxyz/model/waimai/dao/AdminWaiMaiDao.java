@@ -63,6 +63,12 @@ public interface AdminWaiMaiDao {
 	 */
 	WaiMaiReceiver getReceiverByContact(String contact);
 	/**
+	 * 根据备注获得收件人的信息
+	 * @param contact
+	 * @return
+	 */
+	List<WaiMaiReceiver> getReceiverByComment(String comment);
+	/**
 	 * 获得指定日期最新的订单序号
 	 * @param date
 	 * @return

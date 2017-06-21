@@ -208,6 +208,7 @@ define(function(require, exports, module){
 					$('#receiver-name', $receiverContainer).val(receiverInfo.getName());
 					$('#receiver-address', $receiverContainer).val(receiverInfo.getAddress());
 					$('#receiver-id', $receiverContainer).val(receiverInfo.getId());
+					$('#receiver-comment', $receiverContainer).val(receiverInfo.getComment());
 				}
 				receiverLayer = layer.open({
 					  type		: 1,
@@ -215,7 +216,7 @@ define(function(require, exports, module){
 					  title		: '收货人信息填写',
 					  content	: $receiverContainer,
 					  success	: function(layero, index){
-						  $('#receiver-number').focus();
+						  $('#receiver-comment').focus();
 					  },
 					  closeBtn	: 0,
 					  end		: function(){
@@ -253,6 +254,9 @@ define(function(require, exports, module){
 					$('#view-receiver-contact').text(receiver.getContactNumber());
 					//收货地址
 					$('#view-receiver-address').text(receiver.getAddress());
+					//备注
+					$('#view-receiver-comment').text(receiver.getComment());
+					debugger;
 					//将该收货人信息保存到订单对象当中
 					currentOrder.setReceiver(receiver);
 					//关闭弹出框
@@ -398,8 +402,20 @@ define(function(require, exports, module){
 						$('#receiver-id').val(receiver.id || '');
 						$('#receiver-name').val(receiver.name || '');
 						$('#receiver-address').val(receiver.address || '');
+						$('#receiver-comment').val(receiver.comment || '');
 					});
 				}
+			});
+			//输入联系人的备注之后，自动加载联系人的其他信息
+			$('#receiver-comment').change(function(){
+				var comment = $(this).val();
+				loadReceiverInfoByCom(comment, function(receiver){
+					$('#receiver-number').val(receiver.contact || '');
+					$('#receiver-id').val(receiver.id || '');
+					$('#receiver-name').val(receiver.name || '');
+					$('#receiver-address').val(receiver.address || '');
+				});
+				
 			});
 			//创建新订单
 			$('#create-order').click(function(){
@@ -513,7 +529,7 @@ define(function(require, exports, module){
 					sweetness = orderItem.getSweetness();
 				for(var i in additions){
 					if(additions[i] instanceof AdditionInfo){
-						$('span[data-id="' + additions[i].getId() + '"]', $additionWrapper).addClass('selected');
+						$('span.addition[data-id="' + additions[i].getId() + '"]', $additionWrapper).addClass('selected');
 					}
 				}
 				if(heat != null){
@@ -590,14 +606,16 @@ define(function(require, exports, module){
 							contactNumber		: $('#view-receiver-contact', param).text(),
 							name				: $('#view-receiver-name', param).text(),
 							id					: $('#hidden-receiver-id', param).val(),
-							address				: $('#view-receiver-address', param).val()
+							address				: $('#view-receiver-address', param).val(),
+							comment				: $('#view-receiver-comment', param).val()
 						};
 					}else{
 						obj = {
 								contactNumber 	: $('#receiver-number').val(),
 								name 			: $('#receiver-name').val(),
 								id 				: $('#receiver-id').val(),
-								address 		: $('#receiver-address').val()
+								address 		: $('#receiver-address').val(),
+								comment			: $('#receiver-comment').val()
 							};
 					}
 					return new Receiver(obj);
@@ -949,6 +967,23 @@ define(function(require, exports, module){
 				}
 				if(json.status === 'suc'){
 					(loadFunc || $.noop).apply(this, [json.receiver]);
+				}
+			});
+		}
+		/**
+		 * 根据备注从后台获得已经记录的收件人信息
+		 */
+		function loadReceiverInfoByCom(comment, loadFunc){
+			$.post('admin/waimai/loadReceiverByCom', {
+				comment		: comment
+			}, function(data){
+				var json = data; 
+				debugger;
+				if(typeof data === 'string'){
+					json = $.parseJSON(data);
+				}
+				if(json.status === 'suc'){
+					(loadFunc || $.noop).apply(this, [json.receiver[0]]);//目前遇到相同备注只取第一个数据
 				}
 			});
 		}
@@ -1708,7 +1743,9 @@ define(function(require, exports, module){
 				//配送地址
 				address			: '',
 				//联系号码
-				contactNumber	: ''
+				contactNumber	: '',
+				//备注
+				comment			: ''
 		};
 		
 		var param = $.extend({}, defaultParam, _param);
@@ -1742,6 +1779,13 @@ define(function(require, exports, module){
 		 */
 		this.getContactNumber = function(){
 			return param.contactNumber;
+		}
+		/**
+		 * 获得备注
+		 * @return {String} 备注
+		 */
+		this.getComment = function(){
+			return param.comment;
 		}
 		
 	}

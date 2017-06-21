@@ -208,12 +208,17 @@ public class AdminWaiMaiServiceImpl implements AdminWaiMaiService{
 	}
 	
 	@Override
+	public List<WaiMaiReceiver> getReceiverByComment(String comment) {
+		return waimaiDao.getReceiverByComment(comment);
+	}
+	
+	@Override
 	public Integer getOrderNoAndInc() {
 		return waimaiDao.getOrderNoAndInc(new Date());
 	}
 
 	@Override
-	public WaiMaiOrder getOrderById(String id) {
+	public WaiMaiOrder getOrderById(String id) { 
 		return waimaiDao.getOrderById(id);
 	}
 
