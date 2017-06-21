@@ -32,7 +32,7 @@ import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderListCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.criteria.OrderStatisticsCriteria;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderListItem;
 import cn.sowell.ddxyz.model.waimai.pojo.item.OrderStatisticsListItem;
-
+import cn.sowell.ddxyz.model.waimai.pojo.item.OrderMonthList;
 @Repository
 public class OrderManageDaoImpl implements OrderManageDao{
 
@@ -186,6 +186,57 @@ public class OrderManageDaoImpl implements OrderManageDao{
 			return query.list();
 		}
 		return new ArrayList<OrderStatisticsListItem>();
+	}
+	
+	@SuppressWarnings({ "serial", "unchecked" })
+	@Override
+	public List<OrderMonthList> OrderMonthList(CommonPageInfo pageInfo) {
+		String sql = 
+				" SELECT" +
+				"	odr.order_year," +
+				"   odr.order_month,"+
+				"	sum(odr.c_total_income) total_income," +
+				"	count(odr.id) order_count," +
+				"	sum(odr.c_cup_count) cup_count" +
+				" FROM" +
+				"	(" +
+				"		SELECT" +
+				"			year(o.create_time) order_year," +
+				"			MONTH(o.create_time) order_month,"+
+				"			o.*" +
+				"		FROM" +
+				"			t_waimai_order o" +
+				"	) odr" +
+				" GROUP BY odr.order_month,odr.order_year" + 
+				" order by odr.order_year DESC ,odr.order_month DESC";
+		DeferedParamQuery dQuery = new DeferedParamQuery(sql);
+		
+		Session session = sFactory.getCurrentSession();
+		SQLQuery countQuery = dQuery.createSQLQuery(session , false, new WrapForCountFunction());
+		
+		Integer count = FormatUtils.toInteger(countQuery.uniqueResult());
+		pageInfo.setCount(count);
+		if(count > 0){
+			SQLQuery query = dQuery.createSQLQuery(session, false, null);
+			QueryUtils.setPagingParamWithCriteria(query, pageInfo);
+			query.setResultTransformer(new ColumnMapResultTransformer<OrderMonthList>() {
+
+				@Override
+				protected OrderMonthList build(
+						SimpleMapWrapper mapWrapper) {
+					OrderMonthList item = new OrderMonthList();
+					item.setTheYear(mapWrapper.getInteger("order_year"));
+					item.setTheMonth(mapWrapper.getInteger("order_month"));
+					item.setIncome(mapWrapper.getInteger("total_income"));
+					item.setOrderCount(mapWrapper.getInteger("order_count"));
+					item.setCupCount(mapWrapper.getInteger("cup_count"));
+					return item;
+				}
+			});
+			return query.list();
+		}
+		return new ArrayList<OrderMonthList>();
+		
 	}
 	
 	@SuppressWarnings("unchecked")
