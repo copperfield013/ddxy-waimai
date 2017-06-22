@@ -256,7 +256,6 @@ define(function(require, exports, module){
 					$('#view-receiver-address').text(receiver.getAddress());
 					//备注
 					$('#view-receiver-comment').text(receiver.getComment());
-					debugger;
 					//将该收货人信息保存到订单对象当中
 					currentOrder.setReceiver(receiver);
 					//关闭弹出框
@@ -409,12 +408,23 @@ define(function(require, exports, module){
 			//输入联系人的备注之后，自动加载联系人的其他信息
 			$('#receiver-comment').change(function(){
 				var comment = $(this).val();
+				if(comment){
 				loadReceiverInfoByCom(comment, function(receiver){
-					$('#receiver-number').val(receiver.contact || '');
-					$('#receiver-id').val(receiver.id || '');
-					$('#receiver-name').val(receiver.name || '');
-					$('#receiver-address').val(receiver.address || '');
+					if(receiver!=null){
+						$('#receiver-id').val(receiver.id);
+						$('#receiver-name').val(receiver.name);
+						$('#receiver-number').val(receiver.contact);
+						$('#receiver-address').val(receiver.address);
+					}
+					else{
+						$('#receiver-id').val('');
+						$('#receiver-name').val('');
+						$('#receiver-number').val('');
+						$('#receiver-address').val('');
+					}
+					
 				});
+				}
 				
 			});
 			//创建新订单
@@ -977,8 +987,7 @@ define(function(require, exports, module){
 			$.post('admin/waimai/loadReceiverByCom', {
 				comment		: comment
 			}, function(data){
-				var json = data; 
-				debugger;
+				var json = data;
 				if(typeof data === 'string'){
 					json = $.parseJSON(data);
 				}
@@ -1196,7 +1205,8 @@ define(function(require, exports, module){
 					id		: receiver.getId(),
 					name	: receiver.getName(),
 					address	: receiver.getAddress(),
-					contact	: receiver.getContactNumber()
+					contact	: receiver.getContactNumber(),
+					comment : receiver.getComment()
 				}
 			}
 			//外卖平台信息

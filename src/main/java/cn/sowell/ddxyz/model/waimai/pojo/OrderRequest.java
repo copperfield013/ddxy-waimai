@@ -63,6 +63,7 @@ public class OrderRequest {
 			receiver.setName(rJson.getString("name"));
 			receiver.setAddress(rJson.getString("address"));
 			receiver.setContact(rJson.getString("contact"));
+			receiver.setComment(rJson.getString("comment"));
 			order.setReceiver(receiver);
 		}
 		//订单条目

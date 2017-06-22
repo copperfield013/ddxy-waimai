@@ -78,10 +78,12 @@ public class AdminWaiMaiDaoImpl implements AdminWaiMaiDao {
 		if(result != null){
 			result.setAddress(receiver.getAddress());
 			result.setName(receiver.getName());
+			result.setComment(receiver.getComment());
 			result.setUpdateTime(new Date());
 			session.update(result);
 		}else{
 			receiver.setCreateTime(new Date());
+			receiver.setUpdateTime(new Date());
 			session.save(receiver);
 		}
 		return receiver;
@@ -111,7 +113,7 @@ public class AdminWaiMaiDaoImpl implements AdminWaiMaiDao {
 	@Override
 	public List<WaiMaiReceiver> getReceiverByComment(String comment) {
 		Session session = sFactory.getCurrentSession();
-		String hql = "from WaiMaiReceiver w where w.comment = :comment";
+		String hql = "from WaiMaiReceiver w where w.comment = :comment ORDER BY w.updateTime DESC";
 		Query query = session.createQuery(hql);
 		query.setString("comment", comment);
 		return query.list();
